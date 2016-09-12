@@ -26,3 +26,10 @@ build: gemspec_validate
 push: build
 	gem push pkg/$(NAME)-$(VERSION).gem
 
+
+## flack tasks
+
+serve:
+	bundle exec rackup -p 7007
+s: serve
+

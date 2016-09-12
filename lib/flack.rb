@@ -24,11 +24,11 @@
 
 require 'flor'
 
-require 'flack/app'
-
 
 module Flack
 
   VERSION = '0.5.0'
 end
+
+require 'flack/app'
 

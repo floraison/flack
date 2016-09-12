@@ -27,6 +27,7 @@ A web front-end to the flor workflow engine
   ]
 
   s.add_runtime_dependency 'flor', s.version
+  s.add_runtime_dependency 'rack', '~> 1.6'
 
   s.add_development_dependency 'rspec', '3.4.0'
 
