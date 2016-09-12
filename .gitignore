@@ -1,0 +1,11 @@
+
+.ruby-version
+.rspec
+
+*.swp
+
+.vimrc
+.viminfo
+
+#tmp/*.db
+
