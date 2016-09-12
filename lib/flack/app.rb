@@ -23,9 +23,12 @@
 #++
 
 
-module Flack::App
+class Flack::App
 
-  def self.call(env)
+  def initialize
+  end
+
+  def call(env)
 
     [ 200, { 'Content-Type' => 'text/plain' }, [ 'hello flack and flor' ] ]
   end
