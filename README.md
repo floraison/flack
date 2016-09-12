@@ -1,7 +1,7 @@
 
 # flack
 
-Flack is a web front-end for the [flor](https://github.com/floraison/flor) workflow engine.
+Flack is a Rack app for the [flor](https://github.com/floraison/flor) workflow engine.
 
 ## license
 
