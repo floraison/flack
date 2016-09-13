@@ -30,7 +30,36 @@ class Flack::App
 
   def call(env)
 
-    [ 200, { 'Content-Type' => 'text/plain' }, [ 'hello flack and flor' ] ]
+    flack_path_info = env['PATH_INFO'][1..-1]
+      .split('/')
+      .collect { |s| s.match(/\A\d+\z/) ? 'i' : s }
+
+    meth = ([ env['REQUEST_METHOD'].downcase ] + flack_path_info)
+      .join('_')
+      .to_sym
+
+    if respond_to?(meth) && method(meth).arity == 1
+      env['flack.path_info'] = flack_path_info
+      return send(meth, env)
+    end
+
+    four_o_four
+  end
+
+  def get_debug(env)
+
+    [ 200,
+      { 'Content-Type' => 'text/plain' },
+      [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
+  end
+
+  protected
+
+  def four_o_four
+
+    [ 404,
+      { 'Content-Type' => 'application/json' },
+      [ JSON.dump({ code: 404, text: 'Not Found' }) ] ]
   end
 end
 
