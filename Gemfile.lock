@@ -4,6 +4,7 @@ PATH
     flack (0.5.0)
       flor (= 0.5.0)
       rack (~> 1.6)
+      sequel (~> 4)
 
 PATH
   remote: ../flor/
@@ -34,6 +35,7 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     rufus-scheduler (3.2.1)
+    sequel (4.38.0)
 
 PLATFORMS
   ruby
@@ -41,7 +43,7 @@ PLATFORMS
 DEPENDENCIES
   flack!
   flor!
-  rspec (= 3.4.0)
+  rspec (~> 3)
 
 BUNDLED WITH
    1.10.6
