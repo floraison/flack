@@ -25,7 +25,13 @@
 
 class Flack::App
 
-  def initialize
+  def initialize(root)
+
+    @root = root
+
+    @unit = Flor::Unit
+      .new(File.join(@root, 'etc/conf.json'))
+      .start
   end
 
   def call(env)

@@ -3,5 +3,5 @@ $: << 'lib'
 require 'flack'
 
 
-run Flack::App.new
+run Flack::App.new('envs/dev')
 

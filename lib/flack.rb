@@ -22,7 +22,7 @@
 # Made in Japan.
 #++
 
-require 'flor'
+require 'flor/unit'
 
 
 module Flack
