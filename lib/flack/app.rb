@@ -32,15 +32,37 @@ class Flack::App
 
     flack_path_info = env['PATH_INFO'][1..-1]
       .split('/')
-      .collect { |s| s.match(/\A\d+\z/) ? 'i' : s }
 
-    meth = ([ env['REQUEST_METHOD'].downcase ] + flack_path_info)
-      .join('_')
-      .to_sym
+    env['flack.path_info'] = flack_path_info
 
-    if respond_to?(meth) && method(meth).arity == 1
-      env['flack.path_info'] = flack_path_info
-      return send(meth, env)
+    METHS.each do |m|
+
+      next if env['REQUEST_METHOD'] != m[1]
+      next if flack_path_info.length != m[2].length
+
+      match = true
+      args = []
+
+      for i in 0..flack_path_info.length - 1
+        break unless match
+        pi = flack_path_info[i]
+        mi = m[2][i]
+        if mi == 'i'
+          match = pi.match(/\A\d+\z/)
+          args << pi.to_i
+        elsif mi == 's'
+          args << pi
+        else
+          match = pi == mi
+        end
+      end
+
+      next unless match
+
+      env['flack.args'] = args
+      env['flack.query_string'] = Rack::Utils.parse_query(env['QUERY_STRING'])
+
+      return send(m[0], env)
     end
 
     four_o_four
@@ -52,6 +74,15 @@ class Flack::App
       { 'Content-Type' => 'text/plain' },
       [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
   end
+
+  alias get_debug_i get_debug
+
+  METHS = instance_methods
+    .collect(&:to_s)
+    .select { |m| m.match(/\A(get|head|put|post|delete)_.+\z/) }
+    .select { |m| instance_method(m).arity == 1 }
+    .collect { |m| s = m.split('_'); [ m, s.shift.upcase, s ] }
+    .collect(&:freeze).freeze
 
   protected
 
