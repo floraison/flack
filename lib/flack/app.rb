@@ -22,6 +22,8 @@
 # Made in Japan.
 #++
 
+require 'flack/app/executions'
+
 
 class Flack::App
 
