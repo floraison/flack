@@ -41,6 +41,8 @@ class Flack::App
     flack_path_info = env['PATH_INFO'][1..-1]
       .split('/')
 
+    flack_path_info = [ 'index' ] if flack_path_info.empty?
+
     env['flack.path_info'] = flack_path_info
 
     METHS.each do |m|
@@ -84,6 +86,12 @@ class Flack::App
   end
 
   alias get_debug_i get_debug
+
+  def get_index(env)
+
+# TODO
+    [ 200, {}, [ "ok" ] ]
+  end
 
   METHS = instance_methods
     .collect(&:to_s)
