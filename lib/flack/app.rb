@@ -22,6 +22,9 @@
 # Made in Japan.
 #++
 
+require 'flack/app/helpers'
+  #
+require 'flack/app/index'
 require 'flack/app/executions'
 
 
@@ -86,12 +89,6 @@ class Flack::App
   end
 
   alias get_debug_i get_debug
-
-  def get_index(env)
-
-# TODO
-    [ 200, {}, [ "ok" ] ]
-  end
 
   METHS = instance_methods
     .collect(&:to_s)
