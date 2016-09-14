@@ -27,6 +27,17 @@ push: build
 	gem push pkg/$(NAME)-$(VERSION).gem
 
 
+## flor tasks
+
+RUBY=bundle exec ruby
+FLOR_ENV?=dev
+TO?=nil
+FROM?=nil
+
+migrate:
+	$(RUBY) -Ilib -e "require 'flor/unit'; Flor::Unit.new('envs/$(FLOR_ENV)/etc/conf.json').storage.migrate($(TO), $(FROM))"
+
+
 ## flack tasks
 
 serve:

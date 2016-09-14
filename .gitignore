@@ -9,3 +9,5 @@
 
 #tmp/*.db
 
+envs/**/var/data.db
+

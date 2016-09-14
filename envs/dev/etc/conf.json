@@ -1,2 +1,2 @@
-env: dev
+env: 'dev'
 sto_uri: "sqlite://$(root)/var/data.db"
