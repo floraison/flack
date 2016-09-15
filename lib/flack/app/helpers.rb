@@ -28,5 +28,45 @@
 class Flack::App
 
   protected
+
+  def debug_respond(env)
+
+    [ 200,
+      { 'Content-Type' => 'text/plain' },
+      [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
+  end
+
+  def respond(env, data, opts={})
+
+    status = opts[:code] || opts[:status] || 200
+
+    json = serialize(env, data)
+    json['_status'] = status
+    json['_status_text'] = Rack::Utils::HTTP_STATUS_CODE[status]
+
+    [ status, { 'Content-Type' => 'application/json' }, [ JSON.dump(json) ] ]
+  end
+
+  def serialize(env, data, opts)
+
+    return data if data.is_a?(Hash)
+    return serialize_array(env, data, opts) if data.is_a?(Array)
+
+# TODO
+    { todo: true }
+  end
+
+  def serialize_array(env, data, opts)
+
+    { '_links' => links(env),
+      '_embedded' => data.collect { |e| serialize(env, data, opts) } }
+  end
+
+  def links(env)
+
+    {}
+  end
+
+  def respond_not_found(env); respond(env, {}, code: 404); end
 end
 

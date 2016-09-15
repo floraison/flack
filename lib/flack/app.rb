@@ -78,16 +78,10 @@ class Flack::App
       return send(m[0], env)
     end
 
-    four_o_four
+    respond_not_found(env)
   end
 
-  def get_debug(env)
-
-    [ 200,
-      { 'Content-Type' => 'text/plain' },
-      [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
-  end
-
+  def get_debug(env); debug_respond(env); end
   alias get_debug_i get_debug
 
   METHS = instance_methods
@@ -96,14 +90,5 @@ class Flack::App
     .select { |m| instance_method(m).arity == 1 }
     .collect { |m| s = m.split('_'); [ m, s.shift.upcase, s ] }
     .collect(&:freeze).freeze
-
-  protected
-
-  def four_o_four
-
-    [ 404,
-      { 'Content-Type' => 'application/json' },
-      [ JSON.dump({ code: 404, text: 'Not Found' }) ] ]
-  end
 end
 

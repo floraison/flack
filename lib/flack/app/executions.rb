@@ -29,12 +29,13 @@ class Flack::App
 
   def get_executions(env)
 
-    [ 200,
-      { 'Content-Type' => 'text/plain' },
-      [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
+# TODO implement paging
+    respond(@unit.executions.all)
   end
 
   def get_executions_i(env)
+
+    debug_respond(env)
   end
 end
 
