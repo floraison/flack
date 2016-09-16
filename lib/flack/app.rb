@@ -34,8 +34,13 @@ class Flack::App
 
     @root = root
 
+    conf_path =
+      root.end_with?(File::SEPARATOR + 'conf.json') ?
+      root :
+      File.join(@root, 'etc', 'conf.json')
+
     @unit = Flor::Unit
-      .new(File.join(@root, 'etc/conf.json'))
+      .new(conf_path)
       .start
   end
 
