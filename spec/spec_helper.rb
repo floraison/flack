@@ -11,6 +11,23 @@ require 'pp'
 require 'flack'
 
 
+def make_env(opts)
+
+  ho = opts[:host] || '127.0.0.1:7006'
+  pa = opts[:path] || '/'
+  qs = opts[:query] || ''
+
+  {
+    'REQUEST_METHOD' => opts[:method] || 'GET',
+    'PATH_INFO' => pa,
+    'REQUEST_PATH' => pa,
+    'QUERY_STRING' => qs,
+    'REQUEST_URI' => "http://#{ho}#{pa}#{qs.empty? ? '' : '?'}#{qs}",
+    'HTTP_HOST' => ho,
+    'HTTP_VERSION' => 'HTTP/1.1'
+  }
+end
+
 #RSpec::Matchers.define :eqd do |o|
 #
 #  o0 = o
