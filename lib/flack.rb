@@ -22,6 +22,8 @@
 # Made in Japan.
 #++
 
+require 'rack'
+
 require 'flor/unit'
 
 

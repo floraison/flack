@@ -31,9 +31,7 @@ class Flack::App
 
   def debug_respond(env)
 
-    [ 200,
-      { 'Content-Type' => 'text/plain' },
-      [ env.collect { |k, v| [ k, ': ', v.inspect, "\n" ] } ].flatten ]
+    [ 200, { 'Content-Type' => 'application/json' }, [ JSON.dump(env) ] ]
   end
 
   def respond(env, data, opts={})

@@ -12,7 +12,7 @@ describe '/debug' do
 
   before :each do
 
-    @app = Flack::App.new('envs/test/etc/conf.json')
+    @app = Flack::App.new('envs/test/')
     #@unit.conf['unit'] = 'u'
     #@unit.hook('journal', Flor::Journal)
     #@unit.storage.migrate
@@ -33,6 +33,8 @@ describe '/debug' do
       r = @app.call(make_env(path: '/debug'))
 
       expect(r[0]).to eq(200)
+      expect(r[1]['Content-Type']).to eq('application/json')
+      expect(JSON.parse(r[2].join)['REQUEST_PATH']).to eq('/debug')
     end
   end
 end
