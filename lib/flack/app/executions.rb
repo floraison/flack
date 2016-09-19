@@ -30,7 +30,7 @@ class Flack::App
   def get_executions(env)
 
 # TODO implement paging
-    respond(@unit.executions.all)
+    respond(env, @unit.executions.all)
   end
 
   def get_executions_i(env)

@@ -38,9 +38,9 @@ class Flack::App
 
     status = opts[:code] || opts[:status] || 200
 
-    json = serialize(env, data)
+    json = serialize(env, data, opts)
     json['_status'] = status
-    json['_status_text'] = Rack::Utils::HTTP_STATUS_CODE[status]
+    json['_status_text'] = Rack::Utils::HTTP_STATUS_CODES[status]
 
     [ status, { 'Content-Type' => 'application/json' }, [ JSON.dump(json) ] ]
   end

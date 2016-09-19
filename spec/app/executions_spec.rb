@@ -26,9 +26,21 @@ describe '/executions' do
     #@unit.shutdown
   end
 
-  describe 'xxx' do
+  describe 'GET /executions' do
 
-    it 'flips burgers'
+    context 'when no executions' do
+
+      it 'returns an empty result set' do
+
+        r = @app.call(make_env(path: '/executions'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['_embedded']).to eq([])
+      end
+    end
   end
 end
 
