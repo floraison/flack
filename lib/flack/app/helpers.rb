@@ -68,10 +68,20 @@ class Flack::App
       '_embedded' => data.collect { |e| serialize(env, data, opts) } }
   end
 
+  def link(env, type)
+
+# FIXME use env
+    { href: "/#{type}",
+      rel: "https://github.com/floraison/doc/rels.md##{type}" }
+  end
+
   def links(env)
 
 # TODO: continue me
-    { self: env['REQUEST_PATH'] }
+    {
+      self: { href: env['REQUEST_PATH'] },
+      executions: link(env, :executions)
+    }
   end
 
   def respond_not_found(env); respond(env, {}, code: 404); end

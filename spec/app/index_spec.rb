@@ -39,8 +39,13 @@ describe '/' do
       expect(
         j['_links']
       ).to eqj({
-        self: { href: '/' }
+        self: {
+          href: '/' },
+        executions: {
+          href: '/executions',
+          rel: 'https://github.com/floraison/doc/rels.md#executions' }
       })
     end
   end
 end
+
