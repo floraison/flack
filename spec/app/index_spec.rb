@@ -43,7 +43,7 @@ describe '/' do
           href: '/' },
         executions: {
           href: '/executions',
-          rel: 'https://github.com/floraison/doc/rels.md#executions' }
+          rel: 'https://github.com/floraison/flack/blob/master/doc/rels.md#executions' }
       })
     end
   end

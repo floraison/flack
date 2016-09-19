@@ -72,7 +72,7 @@ class Flack::App
 
 # FIXME use env
     { href: "/#{type}",
-      rel: "https://github.com/floraison/doc/rels.md##{type}" }
+      rel: "https://github.com/floraison/flack/blob/master/doc/rels.md##{type}" }
   end
 
   def links(env)
