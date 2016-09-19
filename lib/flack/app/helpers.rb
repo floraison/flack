@@ -47,11 +47,19 @@ class Flack::App
 
   def serialize(env, data, opts)
 
-    return data if data.is_a?(Hash)
     return serialize_array(env, data, opts) if data.is_a?(Array)
 
-# TODO
-    { todo: true }
+    r =
+      (data.is_a?(Hash) ? Flor.dup(data) : nil) ||
+      (data.nil? ? {} : nil) ||
+      data.to_h ||
+      data.to_hash ||
+      fail("don't know how to serialize #{data.class}")
+
+    #r['_klass'] = data.class.to_s # too rubyish
+    r['_links'] = links(env)
+
+    r
   end
 
   def serialize_array(env, data, opts)
@@ -62,7 +70,8 @@ class Flack::App
 
   def links(env)
 
-    {}
+# TODO: continue me
+    { self: env['REQUEST_PATH'] }
   end
 
   def respond_not_found(env); respond(env, {}, code: 404); end

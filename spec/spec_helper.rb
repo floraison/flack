@@ -28,21 +28,23 @@ def make_env(opts)
   }
 end
 
-#RSpec::Matchers.define :eqd do |o|
-#
-#  o0 = o
-#  o = Flor.to_d(o) unless o.is_a?(String)
-#  o = o.strip
-#
-#  match do |actual|
-#
-#    return Flor.to_d(actual) == o
-#  end
-#
-#  failure_message do |actual|
-#
-#    "expected #{o}\n" +
-#    "     got #{Flor.to_d(actual)}"
-#  end
-#end
+
+RSpec::Matchers.define :eqj do |o|
+
+  match do |actual|
+
+    JSON.dump(actual) == JSON.dump(o)
+  end
+
+  failure_message do |actual|
+
+    "expected #{JSON.dump(o)}\n" +
+    "     got #{JSON.dump(actual)}"
+  end
+
+  #failure_message_for_should do |actual|
+  #end
+  #failure_message_for_should_not do |actual|
+  #end
+end
 

@@ -30,7 +30,7 @@ class Flack::App
   def get_index(env)
 
 # TODO
-    [ 200, {}, [ "ok" ] ]
+    respond(env, nil)
   end
 end
 
