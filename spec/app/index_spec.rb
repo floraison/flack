@@ -39,11 +39,8 @@ describe '/' do
       expect(
         j['_links']
       ).to eqj({
-        self: {
-          href: '/' },
-        executions: {
-          href: '/executions',
-          rel: 'https://github.com/floraison/flack/blob/master/doc/rels.md#executions' }
+        'self' => { href: '/' },
+        'http://lambda.io/flack#executions' => { href: '/executions' }
       })
     end
   end
