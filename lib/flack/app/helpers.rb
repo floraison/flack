@@ -77,6 +77,7 @@ class Flack::App
   def links(env)
 
     h = {}
+
     h['self'] = {
       href: env['REQUEST_PATH'] }
     h['curies'] = [{
