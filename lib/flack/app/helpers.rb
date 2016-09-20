@@ -71,13 +71,19 @@ class Flack::App
   def link(env, h, type)
 
 # FIXME use env
-    h["http://lambda.io/flack##{type}"] = { href: "/#{type}" }
+    h["flack:#{type}"] = { href: "/#{type}" }
   end
 
   def links(env)
 
-# TODO: continue me
-    h = { self: { href: env['REQUEST_PATH'] } }
+    h = {}
+    h['self'] = {
+      href: env['REQUEST_PATH'] }
+    h['curies'] = [{
+      name: 'flack',
+      href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
+      templated: true }]
+
     link(env, h, :executions)
 
     h

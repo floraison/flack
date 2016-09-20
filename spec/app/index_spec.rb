@@ -37,10 +37,10 @@ describe '/' do
 
       j = JSON.parse(r[2].first)
       expect(
-        j['_links']
+        j['_links'].select { |k, v| k != 'curies' }
       ).to eqj({
         'self' => { href: '/' },
-        'http://lambda.io/flack#executions' => { href: '/executions' }
+        'flack:executions' => { href: '/executions' }
       })
     end
   end
