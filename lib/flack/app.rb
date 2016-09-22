@@ -30,6 +30,8 @@ require 'flack/app/executions'
 
 class Flack::App
 
+  attr_reader :unit
+
   def initialize(root)
 
     @root = root

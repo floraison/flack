@@ -13,17 +13,17 @@ describe '/executions' do
   before :each do
 
     @app = Flack::App.new('envs/test/etc/conf.json')
-    #@unit.conf['unit'] = 'u'
-    #@unit.hook('journal', Flor::Journal)
-    #@unit.storage.migrate
-    #@unit.start
+    @app.unit.conf['unit'] = 'u'
+    #@app.unit.hook('journal', Flor::Journal)
+    @app.unit.storage.migrate
+    @app.unit.start
   end
 
   after :each do
 
-    #@unit.stop
-    #@unit.storage.clear
-    #@unit.shutdown
+    @app.unit.stop
+    @app.unit.storage.clear
+    @app.unit.shutdown
   end
 
   describe 'GET /executions' do
@@ -39,6 +39,29 @@ describe '/executions' do
 
         j = JSON.parse(r[2].first)
         expect(j['_embedded']).to eq([])
+      end
+    end
+
+    context 'with ongoing executions' do
+
+      before :each do
+        @exids = [
+          @app.unit.launch(%{ stall _ }, domain: 'net.ntt'),
+          @app.unit.launch(%{ stall _ }, domain: 'net.ntt', wait: '0_0 receive')
+        ]
+      end
+
+      it 'lists the executions' do
+
+        r = @app.call(make_env(path: '/executions'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        jn = JSON.parse(r[2].first)
+        ed = j['_embedded']
+
+        expect(ed.collect { |e| e['exid'] }).to eq(@exids)
       end
     end
   end

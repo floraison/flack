@@ -45,6 +45,11 @@ class Flack::App
     [ status, { 'Content-Type' => 'application/json' }, [ JSON.dump(json) ] ]
   end
 
+  def try(o, meth)
+
+    o.respond_to?(meth) ? o.send(meth) : nil
+  end
+
   def serialize(env, data, opts)
 
     return serialize_array(env, data, opts) if data.is_a?(Array)
@@ -52,9 +57,7 @@ class Flack::App
     r =
       (data.is_a?(Hash) ? Flor.dup(data) : nil) ||
       (data.nil? ? {} : nil) ||
-      data.to_h ||
-      data.to_hash ||
-      fail("don't know how to serialize #{data.class}")
+      data.to_h
 
     #r['_klass'] = data.class.to_s # too rubyish
     r['_links'] = links(env)
@@ -65,7 +68,7 @@ class Flack::App
   def serialize_array(env, data, opts)
 
     { '_links' => links(env),
-      '_embedded' => data.collect { |e| serialize(env, data, opts) } }
+      '_embedded' => data.collect { |e| serialize(env, e, opts) } }
   end
 
   def link(env, h, type)
