@@ -12,7 +12,7 @@ describe '/executions' do
 
   before :each do
 
-    @app = Flack::App.new('envs/test/etc/conf.json')
+    @app = Flack::App.new('envs/test/etc/conf.json', start: false)
     @app.unit.conf['unit'] = 'u'
     #@app.unit.hook('journal', Flor::Journal)
     @app.unit.storage.migrate
@@ -50,6 +50,7 @@ describe '/executions' do
           @app.unit.launch(%{ stall _ }, domain: 'net.ntt'),
           @app.unit.launch(%{ stall _ }, domain: 'net.ntt')
         ]
+        sleep 0.5
       end
 
       it 'lists the executions' do

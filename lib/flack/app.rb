@@ -32,7 +32,7 @@ class Flack::App
 
   attr_reader :unit
 
-  def initialize(root)
+  def initialize(root, opts={})
 
     @root = root
 
@@ -41,9 +41,11 @@ class Flack::App
       root :
       File.join(@root, 'etc', 'conf.json')
 
-    @unit = Flor::Unit
-      .new(conf_path)
-      .start
+    @unit = Flor::Unit.new(conf_path)
+
+    @unit.start unless opts[:start] == false
+
+    @unit
   end
 
   def call(env)
