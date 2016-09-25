@@ -16,6 +16,7 @@ describe '/executions' do
     @app.unit.conf['unit'] = 'u'
     #@app.unit.hook('journal', Flor::Journal)
     @app.unit.storage.migrate
+    @app.unit.storage.clear
     @app.unit.start
   end
 
@@ -30,7 +31,7 @@ describe '/executions' do
 
     context 'when no executions' do
 
-      it 'returns an empty result set' do
+      it 'lists zero executions' do
 
         r = @app.call(make_env(path: '/executions'))
 
@@ -47,7 +48,7 @@ describe '/executions' do
       before :each do
         @exids = [
           @app.unit.launch(%{ stall _ }, domain: 'net.ntt'),
-          @app.unit.launch(%{ stall _ }, domain: 'net.ntt', wait: '0_0 receive')
+          @app.unit.launch(%{ stall _ }, domain: 'net.ntt')
         ]
       end
 
@@ -59,7 +60,7 @@ describe '/executions' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         jn = JSON.parse(r[2].first)
-        ed = j['_embedded']
+        ed = jn['_embedded']
 
         expect(ed.collect { |e| e['exid'] }).to eq(@exids)
       end
