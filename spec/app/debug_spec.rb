@@ -12,7 +12,7 @@ describe '/debug' do
 
   before :each do
 
-    @app = Flack::App.new('envs/test/')
+    @app = Flack::App.new('envs/test/', start: false)
     #@unit.conf['unit'] = 'u'
     #@unit.hook('journal', Flor::Journal)
     #@unit.storage.migrate
