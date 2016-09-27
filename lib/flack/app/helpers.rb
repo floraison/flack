@@ -61,6 +61,7 @@ class Flack::App
 
     #r['_klass'] = data.class.to_s # too rubyish
     r['_links'] = links(env)
+    r['_forms'] = forms(env)
 
     r
   end
@@ -107,6 +108,22 @@ class Flack::App
       templated: true }]
 
     link(env, h, :executions)
+
+    h
+  end
+
+  def forms(env)
+
+    h = {}
+
+    h['curies'] = [{
+      name: 'flack',
+      href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#forms-{rel}',
+      templated: true }]
+    h['flack:message'] = {
+      action: rel(env, '/message'),
+      method: 'POST',
+      _inputs: { 'flack:message-content' => { type: 'json' } } }
 
     h
   end

@@ -42,6 +42,15 @@ describe '/' do
         'self' => { href: '/' },
         'flack:executions' => { href: '/executions' }
       })
+
+      f = j['_forms']['flack:message']
+      expect(
+        f
+      ).to eqj({
+        'action' => '/message',
+        'method' => 'POST',
+        '_inputs' => { 'flack:message-content' => { type: 'json' } }
+      })
     end
 
     context 'when SCRIPT_NAME' do
