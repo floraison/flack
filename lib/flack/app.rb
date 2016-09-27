@@ -83,6 +83,7 @@ class Flack::App
 
       env['flack.args'] = args
       env['flack.query_string'] = Rack::Utils.parse_query(env['QUERY_STRING'])
+      env['flack.root_uri'] = determine_root_uri(env)
 
       return send(m[0], env)
     end

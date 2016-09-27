@@ -39,8 +39,8 @@ describe '/' do
       expect(
         j['_links'].select { |k, v| k != 'curies' }
       ).to eqj({
-        'self' => { href: '/' },
-        'flack:executions' => { href: '/executions' }
+        'self' => { href: 'http://127.0.0.1:7006/' },
+        'flack:executions' => { href: 'http://127.0.0.1:7006/executions' }
       })
     end
   end

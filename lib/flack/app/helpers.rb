@@ -71,10 +71,23 @@ class Flack::App
       '_embedded' => data.collect { |e| serialize(env, e, opts) } }
   end
 
+  def determine_root_uri(env)
+
+    ur = env['REQUEST_URI'].split('?').first
+    pa = env['REQUEST_PATH']
+
+    ur[0..-(pa.length + 1)]
+  end
+
+  def abs(env, href)
+
+    return href if href[0, 4] == 'http'
+    "#{env['flack.root_uri']}#{href[0, 1] == '/' ? '': '/'}#{href}"
+  end
+
   def link(env, h, type)
 
-# FIXME use env
-    h["flack:#{type}"] = { href: "/#{type}" }
+    h["flack:#{type}"] = { href: abs(env, "/#{type}") }
   end
 
   def links(env)
@@ -82,7 +95,7 @@ class Flack::App
     h = {}
 
     h['self'] = {
-      href: env['REQUEST_PATH'] }
+      href: abs(env, env['REQUEST_PATH']) }
     h['curies'] = [{
       name: 'flack',
       href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
