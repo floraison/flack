@@ -84,9 +84,15 @@ class Flack::App
     "#{env['flack.root_uri']}#{href[0, 1] == '/' ? '': '/'}#{href}"
   end
 
+  def rel(env, href)
+
+    return href if href[0, 4] == 'http'
+    "#{env['SCRIPT_NAME']}#{href[0, 1] == '/' ? '': '/'}#{href}"
+  end
+
   def link(env, h, type)
 
-    h["flack:#{type}"] = { href: abs(env, "/#{type}") }
+    h["flack:#{type}"] = { href: rel(env, "/#{type}") }
   end
 
   def links(env)
@@ -94,7 +100,7 @@ class Flack::App
     h = {}
 
     h['self'] = {
-      href: abs(env, env['REQUEST_PATH']) }
+      href: rel(env, env['REQUEST_PATH']) }
     h['curies'] = [{
       name: 'flack',
       href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',

@@ -16,6 +16,7 @@ def make_env(opts)
   ho = opts[:host] || '127.0.0.1:7006'
   pa = opts[:path] || '/'
   qs = opts[:query] || ''
+  sn = opts[:script_name] || ''
 
   {
     'REQUEST_METHOD' => opts[:method] || 'GET',
@@ -23,6 +24,7 @@ def make_env(opts)
     'REQUEST_PATH' => pa,
     'QUERY_STRING' => qs,
     'REQUEST_URI' => "http://#{ho}#{pa}#{qs.empty? ? '' : '?'}#{qs}",
+    'SCRIPT_NAME' => sn,
     'HTTP_HOST' => ho,
     'HTTP_VERSION' => 'HTTP/1.1',
     'rack.url_scheme' => 'http'

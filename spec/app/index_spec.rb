@@ -39,9 +39,28 @@ describe '/' do
       expect(
         j['_links'].select { |k, v| k != 'curies' }
       ).to eqj({
-        'self' => { href: 'http://127.0.0.1:7006/' },
-        'flack:executions' => { href: 'http://127.0.0.1:7006/executions' }
+        'self' => { href: '/' },
+        'flack:executions' => { href: '/executions' }
       })
+    end
+
+    context 'when SCRIPT_NAME' do
+
+      it 'returns links to the various endpoints' do
+
+        r = @app.call(make_env(path: '/', script_name: '/flack'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(
+          j['_links'].select { |k, v| k != 'curies' }
+        ).to eqj({
+          'self' => { href: '/flack/' },
+          'flack:executions' => { href: '/flack/executions' }
+        })
+      end
     end
   end
 end
