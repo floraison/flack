@@ -24,7 +24,8 @@ def make_env(opts)
     'QUERY_STRING' => qs,
     'REQUEST_URI' => "http://#{ho}#{pa}#{qs.empty? ? '' : '?'}#{qs}",
     'HTTP_HOST' => ho,
-    'HTTP_VERSION' => 'HTTP/1.1'
+    'HTTP_VERSION' => 'HTTP/1.1',
+    'rack.url_scheme' => 'http'
   }
 end
 

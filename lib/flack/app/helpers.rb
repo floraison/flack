@@ -73,10 +73,9 @@ class Flack::App
 
   def determine_root_uri(env)
 
-    ur = env['REQUEST_URI'].split('?').first
-    pa = env['REQUEST_PATH']
+    hh = env['HTTP_HOST'] || "#{env['SERVER_NAME']}:#{env['SERVER_PORT']}"
 
-    ur[0..-(pa.length + 1)]
+    "#{env['rack.url_scheme']}://#{hh}#{env['SCRIPT_NAME']}"
   end
 
   def abs(env, href)
