@@ -25,6 +25,7 @@
 require 'flack/app/helpers'
   #
 require 'flack/app/index'
+require 'flack/app/static'
 require 'flack/app/executions'
 
 
@@ -66,9 +67,14 @@ class Flack::App
       args = []
 
       for i in 0..flack_path_info.length - 1
+
         break unless match
+
         pi = flack_path_info[i]
         mi = m[2][i]
+
+        break if mi == 'plus' || mi == 'star'
+
         if mi == 'i'
           match = pi.match(/\A\d+\z/)
           args << pi.to_i
