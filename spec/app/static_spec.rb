@@ -25,6 +25,13 @@ describe '/static' do
       expect(r[1]['Content-Type']).to eq('text/css')
       expect(r[2].class).to eq(Rack::File)
     end
+
+    it 'stays in static/' do
+
+      r = @app.call(make_env(path: '/static/../app.rb'))
+
+      expect(r[0]).to eq(404)
+    end
   end
 end
 
