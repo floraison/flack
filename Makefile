@@ -44,3 +44,8 @@ serve:
 	bundle exec rackup -p 7007
 s: serve
 
+curl:
+	curl -s http://127.0.0.1:7007/ | \
+      $(RUBY) -e "require 'json'; puts JSON.pretty_generate(JSON.load(STDIN.read))"
+c: curl
+
