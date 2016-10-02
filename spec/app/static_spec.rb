@@ -23,6 +23,7 @@ describe '/static' do
 
       expect(r[0]).to eq(200)
       expect(r[1]['Content-Type']).to eq('text/css')
+      expect(r[1]['Last-Modified']).not_to eq(nil)
       expect(r[2].class).to eq(Rack::File)
     end
 
