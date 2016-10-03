@@ -13,13 +13,18 @@ require 'flack'
 
 def make_env(opts)
 
+  me = opts[:method] || 'GET'
   ho = opts[:host] || '127.0.0.1:7006'
   pa = opts[:path] || '/'
   qs = opts[:query] || ''
   sn = opts[:script_name] || ''
 
+  body = opts[:body]
+  body = JSON.dump(body) if body && ! body.is_a?(String)
+  ri = body ? StringIO.new(body) : nil
+
   {
-    'REQUEST_METHOD' => opts[:method] || 'GET',
+    'REQUEST_METHOD' => me,
     'PATH_INFO' => pa,
     'REQUEST_PATH' => pa,
     'QUERY_STRING' => qs,
@@ -27,7 +32,8 @@ def make_env(opts)
     'SCRIPT_NAME' => sn,
     'HTTP_HOST' => ho,
     'HTTP_VERSION' => 'HTTP/1.1',
-    'rack.url_scheme' => 'http'
+    'rack.url_scheme' => 'http',
+    'rack.input' => ri
   }
 end
 

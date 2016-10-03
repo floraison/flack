@@ -26,6 +26,7 @@ require 'flack/app/helpers'
   #
 require 'flack/app/index'
 require 'flack/app/static'
+require 'flack/app/message'
 require 'flack/app/executions'
 
 
