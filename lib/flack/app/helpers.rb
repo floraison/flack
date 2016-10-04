@@ -34,13 +34,27 @@ class Flack::App
     [ 200, { 'Content-Type' => 'application/json' }, [ JSON.dump(env) ] ]
   end
 
+  def is_response?(o)
+
+    o.is_a?(Array) &&
+    o.length == 3 &&
+    o[0].is_a?(Fixnum) &&
+    o[1].is_a?(Hash) &&
+    o[2].is_a?(Array)
+  end
+
   def respond(env, data, opts={})
+
+    return data if opts == {} && is_response?(data)
 
     status = opts[:code] || opts[:status] || 200
 
     json = serialize(env, data, opts)
+
     json['_status'] = status
     json['_status_text'] = Rack::Utils::HTTP_STATUS_CODES[status]
+
+    if e = opts[:error]; json['error'] = e; end
 
     [ status, { 'Content-Type' => 'application/json' }, [ JSON.dump(json) ] ]
   end
@@ -128,6 +142,14 @@ class Flack::App
     h
   end
 
-  def respond_not_found(env); respond(env, {}, code: 404); end
+  def respond_bad_request(env, error=nil)
+
+    respond(env, {}, code: 400, error: error)
+  end
+
+  def respond_not_found(env)
+
+    respond(env, {}, code: 404)
+  end
 end
 
