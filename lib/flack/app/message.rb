@@ -30,11 +30,44 @@ class Flack::App
   def post_message(env)
 
     msg = JSON.load(env['rack.input'].read)
-pp msg
+#pp msg
 
-    exid = @unit.queue(msg)
+    pt = msg['point']
 
-    respond(env, { exid: exid, point: msg['point'] })
+    return respond_bad_request(env, 'missing msg point') \
+      unless pt
+    return respond_bad_request(env, "bad msg point #{pt.inspect}") \
+      unless %w[ launch cancel ].include?(pt)
+
+    r = self.send("queue_#{pt}", env, msg, { point: pt })
+
+    respond(env, r)
+  end
+
+  protected
+
+  def queue_launch(env, msg, ret)
+
+    dom = msg['domain']
+    src = msg['tree'] || msg['name']
+
+    return respond_bad_request(env, 'missing domain') \
+      unless dom
+    return respond_bad_request(env, 'missing "tree" or "name" in launch msg') \
+      unless src
+
+    opts = {}
+    opts[:domain] = dom
+
+    ret['exid'] = @unit.launch(src, opts)
+
+    ret
+  end
+
+  def queue_cancel(env, msg, ret)
+
+    # TODO
+    #ret['xxx'] = @unit.queue(msg)
   end
 end
 

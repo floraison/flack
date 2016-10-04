@@ -29,18 +29,68 @@ describe '/message' do
 
   describe 'POST /message' do
 
-    context 'a launch msg' do
+    context 'any msg' do
 
-      it 'launches' do
+      it 'goes 400 if the point is missing' do
 
-        msg = { domain: 'org.nada' }
+        msg = {}
 
         r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
 
-        expect(r[0]).to eq(200)
+        expect(r[0]).to eq(400)
         expect(r[1]['Content-Type']).to eq('application/json')
-# TODO
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['error']).to eq('missing msg point')
       end
+
+      it 'goes 400 if the point is unknown' do
+
+        msg = { point: 'flip' }
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['error']).to eq('bad msg point "flip"')
+      end
+    end
+
+    context 'a launch msg' do
+
+      it 'goes 400 if the domain is missing' do
+
+        msg = { point: 'launch' }
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['error']).to eq('missing domain')
+      end
+
+      it 'goes 400 if the tree is missing' do
+
+        msg = { point: 'launch', domain: 'org.example' }
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['error']).to eq('missing "tree" or "name" in launch msg')
+      end
+
+      it 'launches'
     end
 
     context 'a cancel msg' do
