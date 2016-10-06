@@ -58,11 +58,10 @@ class Flack::App
 
     opts = {}
     opts[:domain] = dom
-    opts[:wait] = msg['wait']
 
     r = @unit.launch(src, opts)
 
-    ret[r.is_a?(String) ? 'exid' : 'msg'] = r
+    ret['exid'] = r
 
     ret
   end

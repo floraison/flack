@@ -117,40 +117,10 @@ describe '/message' do
       end
     end
 
-    context 'a launch msg with wait: true' do
-
-      it 'launches and returns when the execution is over' do
-
-        msg =
-          { point: 'launch',
-            domain: 'org.example',
-            tree: 'sequence _',
-            wait: true }
-
-        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
-
-        expect(r[0]).to eq(200)
-        expect(r[1]['Content-Type']).to eq('application/json')
-
-        j = JSON.parse(r[2].join)
-
-        expect(j['msg']['exid']).to match(/\Aorg\.example-u-2/)
-        expect(j['msg']['point']).to eq('terminated')
-
-        es = @app.unit.executions.all
-
-        expect(es.size).to eq(1)
-        expect(es.first.status).to eq('terminated')
-      end
-    end
-
     context 'a cancel msg' do
 
       it 'cancels'
     end
-
-    #context 'a cancel msg with wait: true' do
-    #end
   end
 end
 
