@@ -111,9 +111,9 @@ describe '/message' do
 
         es = @app.unit.executions.all
 
-        expect(es.collect { |e| e.exid }).to eq([ j['exid'] ])
-        expect(es.collect { |e| e.domain }).to eq(%w[ org.example ])
-        expect(es.collect { |e| e.status }).to eq(%w[ active ])
+        expect(es.collect(&:exid)).to eq([ j['exid'] ])
+        expect(es.collect(&:domain)).to eq(%w[ org.example ])
+        expect(es.collect(&:status)).to eq(%w[ active ])
       end
     end
 
