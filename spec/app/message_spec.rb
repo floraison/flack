@@ -99,11 +99,22 @@ describe '/message' do
 
         r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
 
-        expect(r[0]).to eq(200)
-        #expect(r[0]).to eq(201) # TODO
+        expect(r[0]).to eq(201)
         expect(r[1]['Content-Type']).to eq('application/json')
+        expect(r[1]['Location']).to match(/\A\/executions\/org\.example-u-2/)
 
         j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(201)
+        expect(j['_status_text']).to eq('Created')
+
+        expect(
+          j['_location']
+        ).to match(/\A\/executions\/org\.example-u-2/)
+
+        expect(
+          j['_links']['flack:forms/message-created']['href']
+        ).to match(/\A\/executions\/org\.example-u-2/)
 
         expect(j['exid']).to match(/\Aorg\.example-u-2/)
 

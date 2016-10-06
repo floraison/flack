@@ -47,16 +47,31 @@ class Flack::App
 
     return data if opts == {} && is_response?(data)
 
-    status = opts[:code] || opts[:status] || 200
+    status = nil
+    links = nil
+    location = nil
+
+    if data.is_a?(Hash)
+      status = data['_status'] || data[:_status]
+      links = data.delete('_links') || data.delete(:_links)
+      location = data['_location'] || data[:_location]
+    end
+
+    status = status || opts[:code] || opts[:status] || 200
+
+    headers = { 'Content-Type' => 'application/json' }
+    headers['Location'] = location if location
 
     json = serialize(env, data, opts)
+
+    json['_links'].merge!(links) if links
 
     json['_status'] = status
     json['_status_text'] = Rack::Utils::HTTP_STATUS_CODES[status]
 
     if e = opts[:error]; json['error'] = e; end
 
-    [ status, { 'Content-Type' => 'application/json' }, [ JSON.dump(json) ] ]
+    [ status, headers, [ JSON.dump(json) ] ]
   end
 
   def try(o, meth)
@@ -133,10 +148,10 @@ class Flack::App
 
     h = {}
 
-    h['flack:forms-message'] = {
+    h['flack:forms/message'] = {
       action: rel(env, '/message'),
       method: 'POST',
-      _inputs: { 'flack:forms-message-content' => { type: 'json' } } }
+      _inputs: { 'flack:forms/message-content' => { type: 'json' } } }
 
     h
   end

@@ -62,6 +62,11 @@ class Flack::App
     r = @unit.launch(src, opts)
 
     ret['exid'] = r
+    ret['_status'] = 201
+    ret['_location'] = rel(env, '/executions/' + r)
+
+    ret['_links'] = {
+      'flack:forms/message-created' => { 'href' => ret['_location'] } }
 
     ret
   end
