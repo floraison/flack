@@ -43,13 +43,13 @@ describe '/' do
         'flack:executions' => { href: '/executions' }
       })
 
-      f = j['_forms']['flack:message']
+      f = j['_forms']['flack:forms-message']
       expect(
         f
       ).to eqj({
         'action' => '/message',
         'method' => 'POST',
-        '_inputs' => { 'flack:message-content' => { type: 'json' } }
+        '_inputs' => { 'flack:forms-message-content' => { type: 'json' } }
       })
     end
 

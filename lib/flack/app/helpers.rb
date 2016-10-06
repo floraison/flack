@@ -133,14 +133,10 @@ class Flack::App
 
     h = {}
 
-    h['curies'] = [{
-      name: 'flack',
-      href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#forms-{rel}',
-      templated: true }]
-    h['flack:message'] = {
+    h['flack:forms-message'] = {
       action: rel(env, '/message'),
       method: 'POST',
-      _inputs: { 'flack:message-content' => { type: 'json' } } }
+      _inputs: { 'flack:forms-message-content' => { type: 'json' } } }
 
     h
   end
