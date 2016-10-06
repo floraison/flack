@@ -116,6 +116,9 @@ class Flack::App
 
     h['self'] = {
       href: rel(env, env['REQUEST_PATH']) }
+    m = env['REQUEST_METHOD']
+    h['self'][:method] = m unless %w[ GET HEAD ].include?(m)
+
     h['curies'] = [{
       name: 'flack',
       href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',

@@ -43,6 +43,7 @@ describe '/message' do
         j = JSON.parse(r[2].join)
 
         expect(j['error']).to eq('missing msg point')
+        expect(j['_links']['self']['method']).to eq('POST')
       end
 
       it 'goes 400 if the point is unknown' do
@@ -90,7 +91,7 @@ describe '/message' do
         expect(j['error']).to eq('missing "tree" or "name" in launch msg')
       end
 
-      it 'launches' do
+      it 'launches and goes 201' do
 
         t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
@@ -99,6 +100,7 @@ describe '/message' do
         r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
 
         expect(r[0]).to eq(200)
+        #expect(r[0]).to eq(201) # TODO
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].join)
