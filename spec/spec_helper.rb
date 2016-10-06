@@ -37,18 +37,22 @@ def make_env(opts)
   }
 end
 
+def jdump(o)
+
+  o.nil? ? 'null' : JSON.dump(o)
+end
 
 RSpec::Matchers.define :eqj do |o|
 
   match do |actual|
 
-    JSON.dump(actual) == JSON.dump(o)
+    jdump(actual) == jdump(o)
   end
 
   failure_message do |actual|
 
-    "expected #{JSON.dump(o)}\n" +
-    "     got #{JSON.dump(actual)}"
+    "expected #{jdump(o)}\n" +
+    "     got #{jdump(actual)}"
   end
 
   #failure_message_for_should do |actual|
