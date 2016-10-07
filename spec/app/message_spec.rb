@@ -241,7 +241,7 @@ describe '/message' do
 
         expect(r[0]).to eq(202)
 
-        sleep 0.5
+        sleep 1.0
 
         exes = @app.unit.executions.all
 
