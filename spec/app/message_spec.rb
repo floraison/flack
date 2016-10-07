@@ -192,6 +192,8 @@ describe '/message' do
         r = @app.unit
           .launch('stall _', domain: 'org.example', wait: '0 execute')
 
+        sleep 0.3 # skip a beat
+
         exid = r['exid']
 
         msg = { point: 'cancel', exid: exid }
@@ -229,6 +231,8 @@ describe '/message' do
             wait: '0_0 execute')
 
         exid = r['exid']
+
+        sleep 0.3 # skip a beat
 
         msg = { point: 'cancel', exid: exid, nid: '0_0' }
 
