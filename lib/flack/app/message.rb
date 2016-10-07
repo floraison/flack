@@ -73,8 +73,26 @@ class Flack::App
 
   def queue_cancel(env, msg, ret)
 
-    # TODO
-    #ret['xxx'] = @unit.queue(msg)
+    exid = msg['exid']
+    nid = msg['nid'] || '0'
+
+    return respond_bad_request(env, 'missing exid') \
+      unless exid
+
+    exe = @unit.executions[exid: exid]
+
+    return respond_not_found(env, 'missing execution') \
+      unless exe
+    return respond_not_found(env, 'missing execution node') \
+      unless exe.nodes[nid]
+
+    ret['xxx'] = @unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => nid })
+
+    ret['_status'] = 202
+    ret['_location'] = rel(env, '/executions/' + exid)
+    ret['_links'] = { 'flack:execution' => { 'href' => ret['_location'] } }
+
+    ret
   end
 end
 

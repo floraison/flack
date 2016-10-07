@@ -130,7 +130,123 @@ describe '/message' do
 
     context 'a cancel msg' do
 
-      it 'cancels'
+      it 'goes 400 if the exid is missing' do
+
+        msg = { point: 'cancel' }
+
+        r = @app
+          .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(400)
+        expect(j['_status_text']).to eq('Bad Request')
+
+        expect(j['error']).to eq('missing exid')
+      end
+
+      it 'goes 404 if the execution does not exist' do
+
+        msg = {
+          point: 'cancel', exid: 'org.example-u-20161007.2140.gulisufebu' }
+
+        r = @app
+          .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(404)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(404)
+        expect(j['_status_text']).to eq('Not Found')
+
+        expect(j['error']).to eq('missing execution')
+      end
+
+      it 'goes 404 if the execution node does not exist' do
+
+        r = @app.unit
+          .launch('stall _', domain: 'org.example', wait: '0 execute')
+
+        exid = r['exid']
+
+        msg = { point: 'cancel', exid: exid, nid: '0_1' }
+
+        r = @app
+          .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(404)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(404)
+        expect(j['_status_text']).to eq('Not Found')
+
+        expect(j['error']).to eq('missing execution node')
+      end
+
+      it 'cancels at node 0 by default and goes 202' do
+
+        r = @app.unit
+          .launch('stall _', domain: 'org.example', wait: '0 execute')
+
+        exid = r['exid']
+
+        msg = { point: 'cancel', exid: exid }
+
+        r = @app
+          .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(202)
+        expect(r[1]['Location']).to eq('/executions/' + exid)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(202)
+        expect(j['_status_text']).to eq('Accepted')
+
+        sleep 0.5
+
+        exes = @app.unit.executions.all
+
+        expect(exes.size).to eq(1)
+        expect(exes.first.exid).to eq(exid)
+        expect(exes.first.status).to eq('terminated')
+      end
+
+      it 'cancels at a given nid and goes 202' do
+
+        r = @app.unit
+          .launch(
+            %{
+              sequence
+                stall _
+                stall _
+            },
+            domain: 'org.example',
+            wait: '0_0 execute')
+
+        exid = r['exid']
+
+        msg = { point: 'cancel', exid: exid, nid: '0_0' }
+
+        r = @app
+          .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(202)
+
+        sleep 0.5
+
+        exes = @app.unit.executions.all
+
+        expect(exes.size).to eq(1)
+        expect(exes.first.exid).to eq(exid)
+        expect(exes.first.status).to eq('active')
+
+        expect(exes.first.nodes.keys).to eq(%w[ 0 0_1 ])
+      end
     end
   end
 end

@@ -161,9 +161,9 @@ class Flack::App
     respond(env, {}, code: 400, error: error)
   end
 
-  def respond_not_found(env)
+  def respond_not_found(env, error=nil)
 
-    respond(env, {}, code: 404)
+    respond(env, {}, code: 404, error: error)
   end
 end
 
