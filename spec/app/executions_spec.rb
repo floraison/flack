@@ -15,15 +15,13 @@ describe '/executions' do
     @app = Flack::App.new('envs/test/etc/conf.json', start: false)
     @app.unit.conf['unit'] = 'u'
     #@app.unit.hook('journal', Flor::Journal)
+    @app.unit.storage.delete_tables
     @app.unit.storage.migrate
-    @app.unit.storage.clear
     @app.unit.start
   end
 
   after :each do
 
-    @app.unit.stop
-    @app.unit.storage.clear
     @app.unit.shutdown
   end
 
