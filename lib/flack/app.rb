@@ -52,7 +52,7 @@ class Flack::App
 
   def call(env)
 
-    flack_path_info = env['PATH_INFO'][1..-1]
+    flack_path_info = (env['PATH_INFO'][1..-1] || '')
       .split('/')
 
     flack_path_info = [ 'index' ] if flack_path_info.empty?
