@@ -7,6 +7,11 @@
 .vimrc
 .viminfo
 
+.errors
+.rspec.out
+
+.todo.md
+
 #tmp/*.db
 
 envs/**/var/data.db
