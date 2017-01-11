@@ -47,7 +47,16 @@ class Flack::App
 
     @unit.start unless opts[:start] == false
 
+    self.class.unit = @unit
+
     @unit
+  end
+
+  def self.unit
+    @unit
+  end
+  def self.unit=(u)
+    @unit = u
   end
 
   def call(env)
