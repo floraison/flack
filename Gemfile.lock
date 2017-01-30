@@ -1,15 +1,15 @@
 PATH
   remote: .
   specs:
-    flack (0.5.0)
-      flor (= 0.5.0)
+    flack (0.9.0)
+      flor (= 0.9.0)
       rack (~> 1.6)
       sequel (~> 4)
 
 PATH
   remote: ../flor/
   specs:
-    flor (0.5.0)
+    flor (0.9.0)
       fugit (>= 0.9.5)
       munemo (>= 1.0.1)
       raabro (>= 1.1.3)
@@ -36,7 +36,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    sequel (4.38.0)
+    sequel (4.42.0)
     sqlite3 (1.3.11)
 
 PLATFORMS
