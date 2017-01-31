@@ -26,7 +26,9 @@ A web front-end to the flor workflow engine
     '*.gemspec', '*.txt', '*.rdoc', '*.md'
   ]
 
-  s.add_runtime_dependency 'flor', s.version[0..s.version.rindex('.') - 1]
+  v = s.version.to_s
+  s.add_runtime_dependency 'flor', v[0..v.rindex('.') - 1]
+
   s.add_runtime_dependency 'rack', '~> 1.6'
   s.add_runtime_dependency 'sequel', '~> 4'
 
