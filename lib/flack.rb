@@ -29,7 +29,7 @@ require 'flor/unit'
 
 module Flack
 
-  VERSION = '0.9.1.1'
+  VERSION = '0.10.0'
 end
 
 require 'flack/app'
