@@ -172,6 +172,8 @@ describe '/message' do
 
         msg = { point: 'cancel', exid: exid, nid: '0_1' }
 
+        sleep 0.4 # wait for the execution to actually exist
+
         r = @app
           .call(make_env(method: 'POST', path: '/message', body: msg))
 
