@@ -52,6 +52,11 @@ class Flack::App
     @unit
   end
 
+  def shutdown
+
+    @unit.shutdown
+  end
+
   def self.unit
     @unit
   end

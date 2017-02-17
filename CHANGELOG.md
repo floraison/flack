@@ -4,6 +4,8 @@
 
 ## flack 0.10.0  not yet released
 
+- Flack::App#shutdown (@unit.shutdown)
+
 
 ## flack 0.9.1.1  released 2017-01-31
 

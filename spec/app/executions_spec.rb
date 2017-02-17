@@ -44,11 +44,9 @@ describe '/executions' do
     context 'with ongoing executions' do
 
       before :each do
-        @exids = [
-          @app.unit.launch(%{ stall _ }, domain: 'net.ntt'),
-          @app.unit.launch(%{ stall _ }, domain: 'net.ntt')
-        ]
-        sleep 0.5
+        @exids = (1..2)
+          .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
+        @app.unit.wait('idle')
       end
 
       it 'lists the executions' do
