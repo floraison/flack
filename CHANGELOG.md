@@ -2,7 +2,7 @@
 # flack CHANGELOG.md
 
 
-## flack 0.10.0  not yet released
+## flack 0.10.0  released 2017-03-03
 
 - Flack::App#shutdown (@unit.shutdown)
 
