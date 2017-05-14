@@ -30,7 +30,6 @@ class Flack::App
   def post_message(env)
 
     msg = JSON.load(env['rack.input'].read)
-#pp msg
 
     pt = msg['point']
 

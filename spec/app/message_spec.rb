@@ -61,20 +61,6 @@ describe '/message' do
 
     context 'a launch msg' do
 
-      it 'goes 400 if the domain is missing' do
-
-        msg = { point: 'launch' }
-
-        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
-
-        expect(r[0]).to eq(400)
-        expect(r[1]['Content-Type']).to eq('application/json')
-
-        j = JSON.parse(r[2].join)
-
-        expect(j['error']).to eq('missing domain')
-      end
-
       it 'goes 400 if the tree is missing' do
 
         msg = { point: 'launch', domain: 'org.example' }
@@ -122,6 +108,42 @@ describe '/message' do
 
         expect(es.collect(&:exid)).to eq([ j['exid'] ])
         expect(es.collect(&:domain)).to eq(%w[ org.example ])
+        expect(es.collect(&:status)).to eq(%w[ active ])
+      end
+
+      it 'launches and defaults to domain "domain0"' do
+
+        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+
+        msg = { point: 'launch', tree: t }
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(201)
+        expect(r[1]['Content-Type']).to eq('application/json')
+        expect(r[1]['Location']).to match(/\A\/executions\/domain0-/)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(201)
+        expect(j['_status_text']).to eq('Created')
+
+        expect(
+          j['_location']
+        ).to match(/\A\/executions\/domain0-u-2/)
+
+        expect(
+          j['_links']['flack:forms/message-created']['href']
+        ).to match(/\A\/executions\/domain0-u-2/)
+
+        expect(j['exid']).to match(/\Adomain0-u-2/)
+
+        sleep 0.3
+
+        es = @app.unit.executions.all
+
+        expect(es.collect(&:exid)).to eq([ j['exid'] ])
+        expect(es.collect(&:domain)).to eq(%w[ domain0 ])
         expect(es.collect(&:status)).to eq(%w[ active ])
       end
     end
