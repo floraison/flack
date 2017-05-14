@@ -20,6 +20,7 @@ GEM
     diff-lcs (1.2.5)
     fugit (0.9.5)
       raabro (>= 1.1.3)
+    httpclient (2.8.3)
     jdbc-sqlite3 (3.8.11.2)
     munemo (1.0.1)
     raabro (1.1.3)
@@ -47,6 +48,7 @@ PLATFORMS
 DEPENDENCIES
   flack!
   flor!
+  httpclient
   jdbc-sqlite3 (= 3.8.11.2)
   rspec (~> 3)
   sqlite3 (= 1.3.11)
