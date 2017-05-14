@@ -54,4 +54,14 @@ class ErrorHook
 
     [] # return empty list of new messages
   end
+
+class CancelHook
+  def on(msg)
+
+    hh('cancel', msg)
+
+    [] # return empty list of new messages
+  end
+
+
 end
