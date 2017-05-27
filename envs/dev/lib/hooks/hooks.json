@@ -1,0 +1,7 @@
+[
+  { point: execute, consumed: true, nid: '0', require: 'http/hooks.rb', class: 'LaunchedHook' },
+  { point: return, consumed: true, require: 'http/hooks.rb', class: 'ReturnedHook' },
+  { point: terminated, consumed: true, require: 'http/hooks.rb', class: 'TerminatedHook' }
+  { error: true, require: 'http/hooks.rb', class: 'ErrorHook' }
+  { cancel: true, require: 'http/hooks.rb', class: 'CancelHook' }
+]

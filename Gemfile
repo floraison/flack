@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'flor', path: '../flor/' # temporarily
+gem 'httpclient'
 
 #group :development, :test do
 #  gem 'thin'
