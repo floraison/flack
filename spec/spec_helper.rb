@@ -43,6 +43,25 @@ module Helpers
 
     o.nil? ? 'null' : JSON.dump(o)
   end
+
+  def wait_until(timeout=14, frequency=0.1, &block)
+
+    start = Time.now
+
+    loop do
+
+      sleep(frequency)
+
+      #return if block.call == true
+      r = block.call
+      return r if r
+
+      break if Time.now - start > timeout
+    end
+
+    fail "timeout after #{timeout}s"
+  end
+  alias :wait_for :wait_until
 end
 
 RSpec.configure { |c| c.include(Helpers) }
