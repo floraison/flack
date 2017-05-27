@@ -11,5 +11,5 @@
 
 ## and
 
-[./graphs/contributors](GitHub generated list of contributors)
+[GitHub generated list of contributors](https://github.com/flack/graphs/contributors)
 
