@@ -146,6 +146,76 @@ describe '/message' do
         expect(es.collect(&:domain)).to eq(%w[ domain0 ])
         expect(es.collect(&:status)).to eq(%w[ active ])
       end
+
+      it 'launches and execution vars defaults to an emtpy hash' do
+
+        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+
+        msg = { point: 'launch', domain: 'org.example', tree: t }
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(201)
+        expect(r[1]['Content-Type']).to eq('application/json')
+        expect(r[1]['Location']).to match(/\A\/executions\/org\.example-u-2/)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(201)
+        expect(j['_status_text']).to eq('Created')
+
+        expect(
+          j['_location']
+        ).to match(/\A\/executions\/org\.example-u-2/)
+
+        expect(
+          j['_links']['flack:forms/message-created']['href']
+        ).to match(/\A\/executions\/org\.example-u-2/)
+
+        expect(j['exid']).to match(/\Aorg\.example-u-2/)
+
+        sleep 0.3
+
+        es = @app.unit.executions.all
+
+        expect(es.collect(&:data)[0]['nodes']['0']['vars']).to eq({})
+      end
+
+      it 'launches and accept execution vars' do
+
+        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+
+        vars = {'a' => 'AA'}
+        msg = { point: 'launch', domain: 'org.example', tree: t, vars: vars}
+
+        r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(201)
+        expect(r[1]['Content-Type']).to eq('application/json')
+        expect(r[1]['Location']).to match(/\A\/executions\/org\.example-u-2/)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(201)
+        expect(j['_status_text']).to eq('Created')
+
+        expect(
+          j['_location']
+        ).to match(/\A\/executions\/org\.example-u-2/)
+
+        expect(
+          j['_links']['flack:forms/message-created']['href']
+        ).to match(/\A\/executions\/org\.example-u-2/)
+
+        expect(j['exid']).to match(/\Aorg\.example-u-2/)
+
+        sleep 0.3
+
+        es = @app.unit.executions.all
+
+        expect(es.collect(&:data)[0]['nodes']['0']['vars']).to eq(vars)
+      end
+
     end
 
     context 'a cancel msg' do
