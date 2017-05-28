@@ -26,6 +26,7 @@ class Flack::App
     dom = msg['domain'] || 'domain0'
     src = msg['tree'] || msg['name']
     vars = msg['vars'] || {}
+    fields = msg['fields'] || {}
 
     return respond_bad_request(env, 'missing "tree" or "name" in launch msg') \
       unless src
@@ -33,6 +34,7 @@ class Flack::App
     opts = {}
     opts[:domain] = dom
     opts[:vars] = vars
+    opts[:fields] = fields
 
     r = @unit.launch(src, opts)
 

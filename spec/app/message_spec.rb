@@ -147,7 +147,7 @@ describe '/message' do
         expect(exes.collect(&:status)).to eq(%w[ active ])
       end
 
-      it 'launches and execution vars defaults to an emtpy hash' do
+      it 'launches and vars and payload fields defaults to empty hash' do
 
         t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
@@ -179,14 +179,16 @@ describe '/message' do
         exe = @app.unit.executions.first
 
         expect(exe.nodes['0']['vars']).to eq({})
+        expect(exe.nodes['0']['payload']).to eq({})
       end
 
-      it 'launches and accept execution vars' do
+      it 'launches and accept vars and payload fields' do
 
         t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
-        vars = {'a' => 'AA'}
-        msg = { point: 'launch', domain: 'org.example', tree: t, vars: vars}
+        vars = {'var' => 'a_var'}
+        fields = {'field' => 'a_field'}
+        msg = { point: 'launch', domain: 'org.example', tree: t, vars: vars, fields: fields}
 
         r = @app.call(make_env(method: 'POST', path: '/message', body: msg))
 
@@ -214,6 +216,7 @@ describe '/message' do
         exe = @app.unit.executions.first
 
         expect(exe.nodes['0']['vars']).to eq(vars)
+        expect(exe.nodes['0']['payload']).to eq(fields)
       end
 
     end
