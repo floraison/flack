@@ -102,13 +102,13 @@ describe '/message' do
 
         expect(j['exid']).to match(/\Aorg\.example-u-2/)
 
-        sleep 0.3
+        wait_until { @app.unit.executions.count == 1 }
 
-        es = @app.unit.executions.all
+        exes = @app.unit.executions.all
 
-        expect(es.collect(&:exid)).to eq([ j['exid'] ])
-        expect(es.collect(&:domain)).to eq(%w[ org.example ])
-        expect(es.collect(&:status)).to eq(%w[ active ])
+        expect(exes.collect(&:exid)).to eq([ j['exid'] ])
+        expect(exes.collect(&:domain)).to eq(%w[ org.example ])
+        expect(exes.collect(&:status)).to eq(%w[ active ])
       end
 
       it 'launches and defaults to domain "domain0"' do
@@ -138,13 +138,13 @@ describe '/message' do
 
         expect(j['exid']).to match(/\Adomain0-u-2/)
 
-        sleep 0.3
+        wait_until { @app.unit.executions.count == 1 }
 
-        es = @app.unit.executions.all
+        exes = @app.unit.executions.all
 
-        expect(es.collect(&:exid)).to eq([ j['exid'] ])
-        expect(es.collect(&:domain)).to eq(%w[ domain0 ])
-        expect(es.collect(&:status)).to eq(%w[ active ])
+        expect(exes.collect(&:exid)).to eq([ j['exid'] ])
+        expect(exes.collect(&:domain)).to eq(%w[ domain0 ])
+        expect(exes.collect(&:status)).to eq(%w[ active ])
       end
 
       it 'launches and vars and payload fields defaults to empty hash' do
@@ -174,12 +174,12 @@ describe '/message' do
 
         expect(j['exid']).to match(/\Aorg\.example-u-2/)
 
-        sleep 0.3
+        wait_until { @app.unit.executions.count == 1 }
 
-        es = @app.unit.executions.all
+        exe = @app.unit.executions.first
 
-        expect(es.collect(&:data)[0]['nodes']['0']['vars']).to eq({})
-        expect(es.collect(&:data)[0]['nodes']['0']['payload']).to eq({})
+        expect(exe.nodes['0']['vars']).to eq({})
+        expect(exe.nodes['0']['payload']).to eq({})
       end
 
       it 'launches and accept vars and payload fields' do
@@ -211,12 +211,12 @@ describe '/message' do
 
         expect(j['exid']).to match(/\Aorg\.example-u-2/)
 
-        sleep 0.3
+        wait_until { @app.unit.executions.count == 1 }
 
-        es = @app.unit.executions.all
+        exe = @app.unit.executions.first
 
-        expect(es.collect(&:data)[0]['nodes']['0']['vars']).to eq(vars)
-        expect(es.collect(&:data)[0]['nodes']['0']['payload']).to eq(fields)
+        expect(exe.nodes['0']['vars']).to eq(vars)
+        expect(exe.nodes['0']['payload']).to eq(fields)
       end
 
     end
@@ -267,7 +267,7 @@ describe '/message' do
 
         msg = { point: 'cancel', exid: exid, nid: '0_1' }
 
-        sleep 0.4 # wait for the execution to actually exist
+        wait_until { @app.unit.executions.count == 1 }
 
         r = @app
           .call(make_env(method: 'POST', path: '/message', body: msg))
@@ -287,7 +287,7 @@ describe '/message' do
         r = @app.unit
           .launch('stall _', domain: 'org.example', wait: '0 execute')
 
-        sleep 0.3 # skip a beat
+        wait_until { @app.unit.executions.count == 1 }
 
         exid = r['exid']
 
@@ -304,13 +304,10 @@ describe '/message' do
         expect(j['_status']).to eq(202)
         expect(j['_status_text']).to eq('Accepted')
 
-        sleep 0.5
-
-        exes = @app.unit.executions.all
-
-        expect(exes.size).to eq(1)
-        expect(exes.first.exid).to eq(exid)
-        expect(exes.first.status).to eq('terminated')
+        wait_until {
+          @app.unit.executions
+            .all
+            .collect(&:status) == [ 'terminated' ] }
       end
 
       it 'cancels at a given nid and goes 202' do
@@ -327,7 +324,7 @@ describe '/message' do
 
         exid = r['exid']
 
-        sleep 0.3 # skip a beat
+        wait_until { @app.unit.executions.count == 1 }
 
         msg = { point: 'cancel', exid: exid, nid: '0_0' }
 
@@ -336,15 +333,13 @@ describe '/message' do
 
         expect(r[0]).to eq(202)
 
-        sleep 1.0
+        wait_until { @app.unit.executions.first.nodes.keys == %w[ 0 0_1 ] }
 
         exes = @app.unit.executions.all
 
         expect(exes.size).to eq(1)
         expect(exes.first.exid).to eq(exid)
         expect(exes.first.status).to eq('active')
-
-        expect(exes.first.nodes.keys).to eq(%w[ 0 0_1 ])
       end
     end
   end

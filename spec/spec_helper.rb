@@ -11,36 +11,61 @@ require 'pp'
 require 'flack'
 
 
-def make_env(opts)
+module Helpers
 
-  me = opts[:method] || 'GET'
-  ho = opts[:host] || '127.0.0.1:7006'
-  pa = opts[:path] || '/'
-  qs = opts[:query] || ''
-  sn = opts[:script_name] || ''
+  def make_env(opts)
 
-  body = opts[:body]
-  body = JSON.dump(body) if body && ! body.is_a?(String)
-  ri = body ? StringIO.new(body) : nil
+    me = opts[:method] || 'GET'
+    ho = opts[:host] || '127.0.0.1:7006'
+    pa = opts[:path] || '/'
+    qs = opts[:query] || ''
+    sn = opts[:script_name] || ''
 
-  {
-    'REQUEST_METHOD' => me,
-    'PATH_INFO' => pa,
-    'REQUEST_PATH' => pa,
-    'QUERY_STRING' => qs,
-    'REQUEST_URI' => "http://#{ho}#{pa}#{qs.empty? ? '' : '?'}#{qs}",
-    'SCRIPT_NAME' => sn,
-    'HTTP_HOST' => ho,
-    'HTTP_VERSION' => 'HTTP/1.1',
-    'rack.url_scheme' => 'http',
-    'rack.input' => ri
-  }
+    body = opts[:body]
+    body = JSON.dump(body) if body && ! body.is_a?(String)
+    ri = body ? StringIO.new(body) : nil
+
+    {
+      'REQUEST_METHOD' => me,
+      'PATH_INFO' => pa,
+      'REQUEST_PATH' => pa,
+      'QUERY_STRING' => qs,
+      'REQUEST_URI' => "http://#{ho}#{pa}#{qs.empty? ? '' : '?'}#{qs}",
+      'SCRIPT_NAME' => sn,
+      'HTTP_HOST' => ho,
+      'HTTP_VERSION' => 'HTTP/1.1',
+      'rack.url_scheme' => 'http',
+      'rack.input' => ri
+    }
+  end
+
+  def jdump(o)
+
+    o.nil? ? 'null' : JSON.dump(o)
+  end
+
+  def wait_until(timeout=14, frequency=0.1, &block)
+
+    start = Time.now
+
+    loop do
+
+      sleep(frequency)
+
+      #return if block.call == true
+      r = block.call
+      return r if r
+
+      break if Time.now - start > timeout
+    end
+
+    fail "timeout after #{timeout}s"
+  end
+  alias :wait_for :wait_until
 end
 
-def jdump(o)
+RSpec.configure { |c| c.include(Helpers) }
 
-  o.nil? ? 'null' : JSON.dump(o)
-end
 
 RSpec::Matchers.define :eqj do |o|
 

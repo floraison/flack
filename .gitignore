@@ -6,6 +6,8 @@
 
 .vimrc
 .viminfo
+.bxsinfo.yaml
+.bxsenvs.yaml
 
 .errors
 .rspec.out
