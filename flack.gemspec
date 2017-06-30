@@ -21,9 +21,11 @@ A web front-end to the flor workflow engine
 
   #s.files = `git ls-files`.split("\n")
   s.files = Dir[
+    'README.{md,txt}',
+    'CHANGELOG.{md,txt}', 'CREDITS.{md,txt}', 'LICENSE.{md,txt}',
     'Makefile',
     'lib/**/*.rb', #'spec/**/*.rb', 'test/**/*.rb',
-    '*.gemspec', '*.txt', '*.rdoc', '*.md'
+    "#{s.name}.gemspec",
   ]
 
   flor_version = s.version.to_s.split('.').take(2).join('.')
