@@ -46,6 +46,7 @@ describe '/executions' do
       before :each do
         @exids = (1..2)
           .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
+          .sort
         @app.unit.wait('idle')
       end
 
@@ -59,7 +60,11 @@ describe '/executions' do
         jn = JSON.parse(r[2].first)
         ed = jn['_embedded']
 
-        expect(ed.collect { |e| e['exid'] }).to eq(@exids)
+        expect(
+          ed.collect { |e| e['exid'] }.sort
+        ).to eq(
+          @exids
+        )
       end
     end
   end
