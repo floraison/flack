@@ -49,3 +49,11 @@ curl:
       $(RUBY) -e "require 'json'; puts JSON.pretty_generate(JSON.load(STDIN.read))"
 c: curl
 
+start:
+	if [ ! -f tmp/flack.pid ]; then bundle exec rackup -p 7007 -P tmp/flack.pid -D; fi
+
+stop:
+	if [ -f tmp/flack.pid ]; then kill `cat tmp/flack.pid`; fi
+
+restart:
+	if [ -f tmp/flack.pid ]; then make stop; fi; make start
