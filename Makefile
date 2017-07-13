@@ -55,6 +55,7 @@ c: curl
 start:
 	@if [ ! -f $(PID_FILE) ]; then \
       bundle exec rackup -p $(PORT) -P $(PID_FILE) -D; \
+      sleep 1; \
       echo "listening on $(PORT), pid `cat $(PID_FILE)`"; \
     else \
       echo "already running at `cat $(PID_FILE)`"; \
@@ -67,5 +68,5 @@ stop:
     fi
 
 restart:
-	if [ -f $(PID_FILE) ]; then make stop; fi; make start
+	@if [ -f $(PID_FILE) ]; then make -s stop; fi; make -s start
 
