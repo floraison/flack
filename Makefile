@@ -64,7 +64,6 @@ stop:
 	@if [ -f $(PID_FILE) ]; then \
       echo "stopping flack pid `cat $(PID_FILE)`"; \
       kill `cat $(PID_FILE)`; \
-      rm $(PID_FILE); \
     fi
 
 restart:
