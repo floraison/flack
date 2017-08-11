@@ -11,6 +11,7 @@ PATH
   specs:
     flack (0.10.0)
       flor (~> 0.10)
+      httpclient (~> 2.8)
       rack (~> 1.6)
       sequel (~> 4)
 
