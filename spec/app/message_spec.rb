@@ -77,7 +77,7 @@ describe '/message' do
 
       it 'launches and goes 201' do
 
-        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+        t = Flor.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
         msg = { point: 'launch', domain: 'org.example', tree: t }
 
@@ -113,7 +113,7 @@ describe '/message' do
 
       it 'launches and defaults to domain "domain0"' do
 
-        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+        t = Flor.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
         msg = { point: 'launch', tree: t }
 
@@ -149,7 +149,7 @@ describe '/message' do
 
       it 'launches and vars and payload fields defaults to empty hash' do
 
-        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+        t = Flor.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
         msg = { point: 'launch', domain: 'org.example', tree: t }
 
@@ -184,7 +184,7 @@ describe '/message' do
 
       it 'launches and accept vars and payload fields' do
 
-        t = Flor::Lang.parse("stall _", "#{__FILE__}:#{__LINE__}")
+        t = Flor.parse("stall _", "#{__FILE__}:#{__LINE__}")
 
         vars = {'var' => 'a_var'}
         fields = {'field' => 'a_field'}
