@@ -342,6 +342,127 @@ describe '/message' do
         expect(exes.first.status).to eq('active')
       end
     end
+
+    context 'a reply message' do
+
+      it 'goes 400 if the exid is missing' do
+
+        msg = { point: 'reply' }
+
+        r = @app
+              .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(400)
+        expect(j['_status_text']).to eq('Bad Request')
+
+        expect(j['error']).to eq('missing exid')
+      end
+
+      it 'goes 400 if the nid is missing' do
+
+        msg = {
+          point: 'reply', exid: 'org.example-u-20170831.0132.dijoshiyudu' }
+
+        r = @app
+              .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(400)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(400)
+        expect(j['_status_text']).to eq('Bad Request')
+
+        expect(j['error']).to eq('missing nid')
+      end
+
+      it 'goes 404 if the execution does not exist' do
+
+        msg = {
+          point: 'cancel', exid: 'org.example-u-20170831.0132.dijoshiyudu' }
+
+        r = @app
+              .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(404)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(404)
+        expect(j['_status_text']).to eq('Not Found')
+
+        expect(j['error']).to eq('missing execution')
+      end
+
+      it 'goes 404 if the execution node does not exist' do
+
+        r = @app.unit
+              .launch('stall _', domain: 'org.example', wait: '0 execute')
+
+        exid = r['exid']
+
+        msg = { point: 'reply', exid: exid, nid: '0_1' }
+
+        wait_until { @app.unit.executions.count == 1 }
+
+        r = @app
+              .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(404)
+
+        j = JSON.parse(r[2].join)
+
+        expect(j['_status']).to eq(404)
+        expect(j['_status_text']).to eq('Not Found')
+
+        expect(j['error']).to eq('missing execution node')
+      end
+
+      it 'replies at a given node and goes 202' do
+
+        r = @app.unit
+          .launch(
+            %{
+              sequence
+                remote _
+                stall _
+            },
+            domain: 'org.example',
+            wait: '0_0 execute')
+
+        exid = r['exid']
+
+        wait_until { @app.unit.executions.count == 1 }
+
+        wait_until { @app.unit.executions.first.nodes.keys == %w[ 0 0_0 ] }
+
+        payload = { "remote_reply_comes_at_tstamp" => Time.now.to_s }
+        msg = {
+          point: 'reply',
+          exid: exid,
+          nid: '0_0',
+          payload: payload
+        }
+
+        r = @app
+              .call(make_env(method: 'POST', path: '/message', body: msg))
+
+        expect(r[0]).to eq(202)
+
+        wait_until { @app.unit.executions.first.nodes.keys == %w[ 0 0_1 ] }
+
+        exes = @app.unit.executions.all
+
+        expect(exes.size).to eq(1)
+        expect(exes.first.exid).to eq(exid)
+        expect(exes.first.status).to eq('active')
+        expect(exes.first.nodes['0_1']['payload']).to eq(payload)
+      end
+    end
   end
 end
 

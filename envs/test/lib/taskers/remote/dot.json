@@ -1,0 +1,4 @@
+# remote tasker
+
+require: 'tasker.rb'
+class: RemoteTasker
