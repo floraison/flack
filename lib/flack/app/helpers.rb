@@ -14,7 +14,7 @@ class Flack::App
 
     o.is_a?(Array) &&
     o.length == 3 &&
-    o[0].is_a?(Fixnum) &&
+    o[0].is_a?(Integer) &&
     o[1].is_a?(Hash) &&
     o[2].is_a?(Array)
   end
