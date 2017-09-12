@@ -12,7 +12,7 @@ class Flack::App
     return respond_bad_request(env, 'missing msg point') \
       unless pt
     return respond_bad_request(env, "bad msg point #{pt.inspect}") \
-      unless %w[ launch cancel ].include?(pt)
+      unless %w[ launch cancel reply ].include?(pt)
 
     r = self.send("queue_#{pt}", env, msg, { point: pt })
 
@@ -64,6 +64,34 @@ class Flack::App
       unless exe.nodes[nid]
 
     ret['xxx'] = @unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => nid })
+
+    ret['_status'] = 202
+    ret['_location'] = rel(env, '/executions/' + exid)
+    ret['_links'] = { 'flack:execution' => { 'href' => ret['_location'] } }
+
+    ret
+  end
+
+  def queue_reply(env, msg, ret)
+
+    exid = msg['exid']
+    nid = msg['nid']
+    payload = msg['payload'] || {}
+
+    return respond_bad_request(env, 'missing exid') \
+      unless exid
+
+    return respond_bad_request(env, 'missing nid') \
+      unless nid
+
+    exe = @unit.executions[exid: exid]
+
+    return respond_not_found(env, 'missing execution') \
+      unless exe
+    return respond_not_found(env, 'missing execution node') \
+      unless exe.nodes[nid]
+
+    ret['xxx'] = @unit.queue({ 'point' => 'return', 'exid' => exid, 'nid' => nid, 'payload' => payload})
 
     ret['_status'] = 202
     ret['_location'] = rel(env, '/executions/' + exid)
