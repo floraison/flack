@@ -25,9 +25,9 @@ describe '/executions' do
     @app.unit.shutdown
   end
 
-  describe 'GET /executions' do
+  context 'when no executions' do
 
-    context 'when no executions' do
+    describe 'GET /executions' do
 
       it 'lists zero executions' do
 
@@ -39,8 +39,11 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
         expect(j['_embedded']).to eq([])
       end
+    end
 
-      it 'a item with zero executions by exid (not found)' do
+    describe 'GET /executions/:exid' do
+
+      it 'goes 404 when the execution does not exist' do
 
         r = @app.call(make_env(path: '/executions/exid_1'))
 
@@ -50,8 +53,11 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
         expect(j['exid']).to eq(nil)
       end
+    end
 
-      it 'a item with zero executions by id (not found)' do
+    describe 'GET /executions/:id' do
+
+      it 'goes 404 when the execution does not exist' do
 
         r = @app.call(make_env(path: '/executions/1'))
 
@@ -62,15 +68,19 @@ describe '/executions' do
         expect(j['exid']).to eq(nil)
       end
     end
+  end
 
-    context 'with ongoing executions' do
+  context 'with ongoing executions' do
 
-      before :each do
-        @exids = (1..2)
-          .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
-          .sort
-        @app.unit.wait('idle')
-      end
+    before :each do
+
+      @exids = (1..2)
+        .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
+        .sort
+      @app.unit.wait('idle')
+    end
+
+    describe 'GET /executions/:id' do
 
       it 'lists the executions' do
 
@@ -88,8 +98,11 @@ describe '/executions' do
           @exids
         )
       end
+    end
 
-      it 'first item of the executions by exid' do
+    describe 'GET /executions/:exid' do
+
+      it 'returns the execution' do
 
         r = @app.call(make_env(path: "/executions/#{@exids.first}"))
 
@@ -99,8 +112,11 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
         expect(j['exid']).to eq(@exids.first)
       end
+    end
 
-      it 'first item of the executions by id' do
+    describe 'GET /executions/:id' do
+
+      it 'returns the execution' do
 
         pr = @app.call(make_env(path: "/executions/#{@exids.first}"))
         pj = JSON.parse(pr[2].first)
@@ -114,7 +130,6 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
         expect(j['exid']).to eq(@exids.first)
       end
-
     end
   end
 end
