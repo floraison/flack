@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/floraison/flor
-  revision: f86746ec4c76fbef91278ab8163f0e109a390655
+  revision: e5bd44f67c0a45a42aac00a0571f8b9620a8d679
   specs:
     flor (0.15.0)
       fugit (>= 1.0.0)
@@ -44,7 +44,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    sequel (4.42.0)
+    sequel (4.49.0)
     sqlite3 (1.3.11)
     thread_safe (0.3.6)
     thread_safe (0.3.6-java)
