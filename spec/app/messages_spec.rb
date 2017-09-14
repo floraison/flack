@@ -44,15 +44,16 @@ describe '/messages' do
 
     describe 'GET /messages/:exid' do
 
-      it 'goes 404 when the execution does not exist' do
+      it 'returns an empty list' do
 
         r = @app.call(make_env(path: '/messages/exid_1'))
 
-        expect(r[0]).to eq(404)
+        expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['exid']).to eq(nil)
+
+        expect(j['_embedded']).to eq([])
       end
     end
 
@@ -103,15 +104,22 @@ describe '/messages' do
 
     describe 'GET /messages/:exid' do
 
-      it 'returns the first corresponding message' do
+      it 'returns all the messages with the given exid' do
 
-        r = @app.call(make_env(path: "/messages/#{@exids.first}"))
+        exid = @exids.first
+
+        r = @app.call(make_env(path: "/messages/#{exid}"))
 
         expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['exid']).to eq(@exids.first)
+
+        ms = j['_embedded']
+
+        expect(ms.size).to eq(1)
+        expect(ms.collect { |e| e['point'] }).to eq([ 'execute' ])
+        expect(ms.collect { |e| e['exid'] }).to eq([ exid ])
       end
     end
 
@@ -119,17 +127,19 @@ describe '/messages' do
 
       it 'returns the message with the given id' do
 
-        pr = @app.call(make_env(path: "/messages/#{@exids.first}"))
-        pj = JSON.parse(pr[2].first)
-        pi = pj['id']
+        exid = @exids.first
 
-        r = @app.call(make_env(path: "/messages/#{pi}"))
+        mr = @app.call(make_env(path: "/messages/#{exid}"))
+        mj = JSON.parse(mr[2].first)
+        mi = mj['_embedded'].first['id']
+
+        r = @app.call(make_env(path: "/messages/#{mi}"))
 
         expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['exid']).to eq(@exids.first)
+        expect(j['exid']).to eq(exid)
       end
     end
   end
