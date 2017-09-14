@@ -14,8 +14,8 @@ describe '/messages' do
 
     @app = Flack::App.new('envs/test/etc/conf.json', start: false)
     @app.unit.conf['unit'] = 'u'
-    @app.unit.conf['sto_archive'] = true
     #@app.unit.hook('journal', Flor::Journal)
+    @app.unit.storage.archive = true
     @app.unit.storage.delete_tables
     @app.unit.storage.migrate
     @app.unit.start

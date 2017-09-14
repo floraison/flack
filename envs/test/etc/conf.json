@@ -1,5 +1,5 @@
 env: 'test'
 sto_uri: "sqlite://$(root)/var/data.db"
 sto_sync: true
-sto_archive: true
+#sto_archive: true
 #sto_uri: "sqlite::memory:"

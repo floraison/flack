@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/floraison/flor
-  revision: a18f0b07b2c90a9fd69a1a3e409822f7f45d40c1
+  revision: f86746ec4c76fbef91278ab8163f0e109a390655
   specs:
     flor (0.15.0)
       fugit (>= 1.0.0)
       munemo (>= 1.0.1)
-      raabro (>= 1.1.3)
+      raabro (>= 1.1.5)
+      sequel (~> 4)
 
 PATH
   remote: .
@@ -28,7 +29,7 @@ GEM
     httpclient (2.8.3)
     jdbc-sqlite3 (3.8.11.2)
     munemo (1.0.1)
-    raabro (1.1.3)
+    raabro (1.1.5)
     rack (1.6.4)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -62,4 +63,4 @@ DEPENDENCIES
   sqlite3 (= 1.3.11)
 
 BUNDLED WITH
-   1.14.4
+   1.15.4
