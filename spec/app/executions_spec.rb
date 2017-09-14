@@ -80,7 +80,7 @@ describe '/executions' do
       @app.unit.wait('idle')
     end
 
-    describe 'GET /executions/:id' do
+    describe 'GET /executions' do
 
       it 'lists the executions' do
 
