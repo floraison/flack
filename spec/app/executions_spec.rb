@@ -39,6 +39,28 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
         expect(j['_embedded']).to eq([])
       end
+
+      it 'a item with zero executions by exid (not found)' do
+
+        r = @app.call(make_env(path: '/executions/exid_1'))
+
+        expect(r[0]).to eq(404)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['exid']).to eq(nil)
+      end
+
+      it 'a item with zero executions by id (not found)' do
+
+        r = @app.call(make_env(path: '/executions/1'))
+
+        expect(r[0]).to eq(404)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['exid']).to eq(nil)
+      end
     end
 
     context 'with ongoing executions' do
@@ -66,6 +88,33 @@ describe '/executions' do
           @exids
         )
       end
+
+      it 'first item of the executions by exid' do
+
+        r = @app.call(make_env(path: "/executions/#{@exids.first}"))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['exid']).to eq(@exids.first)
+      end
+
+      it 'first item of the executions by id' do
+
+        pr = @app.call(make_env(path: "/executions/#{@exids.first}"))
+        pj = JSON.parse(pr[2].first)
+        pi = pj['id']
+
+        r = @app.call(make_env(path: "/executions/#{pi}"))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['exid']).to eq(@exids.first)
+      end
+
     end
   end
 end
