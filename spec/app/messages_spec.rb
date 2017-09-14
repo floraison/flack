@@ -26,11 +26,11 @@ describe '/messages' do
     @app.unit.shutdown
   end
 
-  describe 'GET /messages' do
+  context 'when no executions' do
 
-    context 'when no executions' do
+    describe 'GET /messages' do
 
-      it 'messages with zero executions (empty)' do
+      it 'returns an empty message list' do
 
         r = @app.call(make_env(path: '/messages'))
 
@@ -40,8 +40,11 @@ describe '/messages' do
         j = JSON.parse(r[2].first)
         expect(j['_embedded']).to eq([])
       end
+    end
 
-      it 'a message with zero executions by exid (not found)' do
+    describe 'GET /messages/:exid' do
+
+      it 'goes 404 when the execution does not exist' do
 
         r = @app.call(make_env(path: '/messages/exid_1'))
 
@@ -51,8 +54,11 @@ describe '/messages' do
         j = JSON.parse(r[2].first)
         expect(j['exid']).to eq(nil)
       end
+    end
 
-      it 'a message with zero executions by id (not found)' do
+    describe 'GET /messages/:id' do
+
+      it 'goes 404 if the message does not exist' do
 
         r = @app.call(make_env(path: '/messages/1'))
 
@@ -63,17 +69,21 @@ describe '/messages' do
         expect(j['exid']).to eq(nil)
       end
     end
+  end
 
-    context 'with ongoing executions' do
+  context 'with ongoing executions' do
 
-      before :each do
-        @exids = (1..2)
-          .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
-          .sort
-        @app.unit.wait('idle')
-      end
+    before :each do
 
-      it 'lists of the messages' do
+      @exids = (1..2)
+        .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
+        .sort
+      @app.unit.wait('idle')
+    end
+
+    describe 'GET /messages' do
+
+      it 'lists all' do
 
         r = @app.call(make_env(path: '/messages'))
 
@@ -89,8 +99,11 @@ describe '/messages' do
           @exids
         )
       end
+    end
 
-      it 'first item of the messages by exid' do
+    describe 'GET /messages/:exid' do
+
+      it 'returns the first corresponding message' do
 
         r = @app.call(make_env(path: "/messages/#{@exids.first}"))
 
@@ -100,8 +113,11 @@ describe '/messages' do
         j = JSON.parse(r[2].first)
         expect(j['exid']).to eq(@exids.first)
       end
+    end
 
-      it 'first item of the messages by id' do
+    describe 'GET /messages/:id' do
+
+      it 'returns the message with the given id' do
 
         pr = @app.call(make_env(path: "/messages/#{@exids.first}"))
         pj = JSON.parse(pr[2].first)
