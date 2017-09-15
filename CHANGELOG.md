@@ -4,6 +4,9 @@
 
 ## flack 0.11.0  not yet released
 
+- GET /executions/:domain
+- GET /executions/:domain*
+- GET /executions/:domain.*
 - GET /messages/:point
 - GET /messages/:exid/:point
 - GET /messages/:exid

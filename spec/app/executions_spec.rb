@@ -29,7 +29,7 @@ describe '/executions' do
 
     describe 'GET /executions' do
 
-      it 'lists zero executions' do
+      it 'returns an empty list' do
 
         r = @app.call(make_env(path: '/executions'))
 
@@ -45,7 +45,7 @@ describe '/executions' do
 
       it 'goes 404 when the execution does not exist' do
 
-        r = @app.call(make_env(path: '/executions/exid_1'))
+        r = @app.call(make_env(path: '/executions/not.existing.exid-123-123'))
 
         expect(r[0]).to eq(404)
         expect(r[1]['Content-Type']).to eq('application/json')
@@ -68,14 +68,42 @@ describe '/executions' do
         expect(j['exid']).to eq(nil)
       end
     end
+
+    describe 'GET /executions/:domain' do
+
+      it 'returns an empty list' do
+
+        r = @app.call(make_env(path: '/executions/net.ntt'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['_embedded']).to eq([])
+      end
+    end
+
+    describe 'GET /executions/:domain*' do
+
+      it 'returns an empty list' do
+
+        r = @app.call(make_env(path: '/executions/net.*'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+        expect(j['_embedded']).to eq([])
+      end
+    end
   end
 
   context 'with ongoing executions' do
 
     before :each do
 
-      @exids = (1..2)
-        .collect { @app.unit.launch(%{ stall _ }, domain: 'net.ntt') }
+      @exids = %w[ net.ntt net.ntt net.ntt.finance net.ntt.hr net.nttc ]
+        .collect { |d| @app.unit.launch(%{ stall _ }, domain: d) }
         .sort
       @app.unit.wait('idle')
     end
@@ -118,7 +146,9 @@ describe '/executions' do
 
       it 'returns the execution' do
 
-        pr = @app.call(make_env(path: "/executions/#{@exids.first}"))
+        exid = @exids.first
+
+        pr = @app.call(make_env(path: "/executions/#{exid}"))
         pj = JSON.parse(pr[2].first)
         pi = pj['id']
 
@@ -128,7 +158,64 @@ describe '/executions' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['exid']).to eq(@exids.first)
+        expect(j['exid']).to eq(exid)
+      end
+    end
+
+    describe 'GET /executions/:domain' do
+
+      it 'lists all the execution in the given domain' do
+
+        r = @app.call(make_env(path: '/executions/net.ntt'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+
+        expect(
+          j['_embedded'].collect { |e| e['domain'] }
+        ).to eq(%w[
+          net.ntt net.ntt
+        ])
+      end
+    end
+
+    describe 'GET /executions/:domain*' do
+
+      it 'lists alls the executions in the domain and its subdomains' do
+
+        r = @app.call(make_env(path: '/executions/net.ntt*'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+
+        expect(
+          j['_embedded'].collect { |e| e['domain'] }
+        ).to eq(%w[
+          net.ntt net.ntt net.ntt.finance net.ntt.hr
+        ])
+      end
+    end
+
+    describe 'GET /executions/:domain.*' do
+
+      it 'lists the executions in the sub-domains' do
+
+        r = @app.call(make_env(path: '/executions/net.ntt.*'))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+
+        expect(
+          j['_embedded'].collect { |e| e['domain'] }
+        ).to eq(%w[
+          net.ntt.finance net.ntt.hr
+        ])
       end
     end
   end
