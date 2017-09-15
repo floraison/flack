@@ -2,6 +2,16 @@
 # flack CHANGELOG.md
 
 
+## flack 0.11.0  not yet released
+
+- GET /messages/:exid
+- GET /messages/:id
+- GET /executions/:exid
+- GET /executions/:id
+
+
+## flack 0.10.0  released 2017-03-03
+
 ## flack 0.10.0  released 2017-03-03
 
 - Flack::App#shutdown (@unit.shutdown)
