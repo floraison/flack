@@ -19,6 +19,8 @@ describe '/messages' do
     @app.unit.storage.delete_tables
     @app.unit.storage.migrate
     @app.unit.start
+
+    @db = @app.unit.storage.db
   end
 
   after :each do
@@ -108,6 +110,11 @@ describe '/messages' do
 
         exid = @exids.first
 
+        @app.unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => '0' })
+        @app.unit.wait(exid, 'terminated')
+
+        wait_until { @db[:flor_messages].where(status: 'consumed').count == 4 }
+
         r = @app.call(make_env(path: "/messages/#{exid}"))
 
         expect(r[0]).to eq(200)
@@ -117,9 +124,12 @@ describe '/messages' do
 
         ms = j['_embedded']
 
-        expect(ms.size).to eq(1)
-        expect(ms.collect { |e| e['point'] }).to eq([ 'execute' ])
-        expect(ms.collect { |e| e['exid'] }).to eq([ exid ])
+        expect(
+          ms.size).to eq(3)
+        expect(
+          ms.collect { |e| e['point'] }).to eq(%w[ execute cancel terminated ])
+        expect(
+          ms.collect { |e| e['exid'] }.uniq).to eq([ exid ])
       end
     end
 
