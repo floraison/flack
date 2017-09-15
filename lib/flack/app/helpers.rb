@@ -98,7 +98,15 @@ class Flack::App
 
   def link(env, h, type)
 
-    h["flack:#{type}"] = { href: rel(env, "/#{type}") }
+    l = { href: rel(env, "/#{type}") }
+    l[:templated] = true if type.index('{')
+
+    rel_right_part = type
+      .gsub(/[{}]/, '')
+      .gsub(/\./, '-dot')
+      .gsub(/\*/, '-star')
+
+    h["flack:#{rel_right_part}"] = l
   end
 
   def links(env)
@@ -115,7 +123,18 @@ class Flack::App
       href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
       templated: true }]
 
-    link(env, h, :executions)
+    link(env, h, 'executions')
+    link(env, h, 'executions/{domain}')
+    link(env, h, 'executions/{domain}*')
+    link(env, h, 'executions/{domain}.*')
+    link(env, h, 'executions/{exid}')
+    link(env, h, 'executions/{id}')
+
+    link(env, h, 'messages')
+    link(env, h, 'messages/{point}')
+    link(env, h, 'messages/{exid}/{point}')
+    link(env, h, 'messages/{exid}')
+    link(env, h, 'messages/{id}')
 
     h
   end
