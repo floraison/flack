@@ -4,6 +4,7 @@
 
 ## flack 0.11.0  not yet released
 
+- GET /messages/:point
 - GET /messages/:exid/:point
 - GET /messages/:exid
 - GET /messages/:id

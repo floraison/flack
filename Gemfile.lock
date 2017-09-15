@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/floraison/flor
-  revision: e5bd44f67c0a45a42aac00a0571f8b9620a8d679
+  revision: e14e9d8661ba54a7545f228644b08ecb22f57906
   specs:
     flor (0.15.0)
       fugit (>= 1.0.0)

@@ -153,6 +153,33 @@ describe '/messages' do
       end
     end
 
+    describe 'GET /messages/:point' do
+
+      it 'lists all the messages with the given point' do
+
+        exid = @exids.first
+
+        @app.unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => '0' })
+        @app.unit.wait(exid, 'terminated')
+
+        wait_until { @db[:flor_messages].where(status: 'consumed').count == 4 }
+
+        r = @app.call(make_env(path: "/messages/execute"))
+
+        expect(r[0]).to eq(200)
+        expect(r[1]['Content-Type']).to eq('application/json')
+
+        j = JSON.parse(r[2].first)
+
+        expect(
+          j['_embedded'].size).to eq(2)
+        expect(
+          j['_embedded'].collect { |m| m['point'] }.uniq).to eq(%w[ execute ])
+        expect(
+          j['_embedded'].collect { |m| m['exid'] }.sort).to eq(@exids.sort)
+      end
+    end
+
     describe 'GET /messages/:exid/:point' do
 
       it 'lists the messages of an execution with a given point' do
