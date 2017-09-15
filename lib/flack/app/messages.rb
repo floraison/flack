@@ -22,8 +22,19 @@ class Flack::App
   def get_messages_s(env)
 
 # TODO implement paging
-    exe = @unit.messages.where(exid: [env['flack.args'][0]]).all
-    return respond_not_found(env) unless exe
-    respond(env, exe)
+    respond(
+      env,
+      @unit.messages
+        .where(exid: env['flack.args'][0]).all)
+  end
+
+  # GET /messages/<exid>/<point>
+  def get_messages_s_s(env)
+
+    exid, point = env['flack.args']
+
+    respond(
+      env,
+      @unit.messages.where(exid: exid, point: point).all)
   end
 end
