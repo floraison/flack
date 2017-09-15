@@ -63,7 +63,7 @@ class Flack::App
     return respond_not_found(env, 'missing execution node') \
       unless exe.nodes[nid]
 
-    ret['xxx'] = @unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => nid })
+    ret['xxx'] = @unit.queue({ 'point' => 'cancel', 'exid' => exid, 'nid' => nid }) # FIXME change me
 
     ret['_status'] = 202
     ret['_location'] = rel(env, '/executions/' + exid)
@@ -91,7 +91,7 @@ class Flack::App
     return respond_not_found(env, 'missing execution node') \
       unless exe.nodes[nid]
 
-    ret['xxx'] = @unit.queue({ 'point' => 'return', 'exid' => exid, 'nid' => nid, 'payload' => payload})
+    ret['xxx'] = @unit.queue({ 'point' => 'return', 'exid' => exid, 'nid' => nid, 'payload' => payload}) # FIXME change me
 
     ret['_status'] = 202
     ret['_location'] = rel(env, '/executions/' + exid)

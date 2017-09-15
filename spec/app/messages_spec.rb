@@ -40,7 +40,8 @@ describe '/messages' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['_embedded']).to eq([])
+
+        expect(j['_embedded']).to eq({ 'flack:messages' => [] })
       end
     end
 
@@ -55,7 +56,7 @@ describe '/messages' do
 
         j = JSON.parse(r[2].first)
 
-        expect(j['_embedded']).to eq([])
+        expect(j['_embedded']).to eq({ 'flack:messages/exid' => [] })
       end
     end
 
@@ -93,11 +94,12 @@ describe '/messages' do
         expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
-        jn = JSON.parse(r[2].first)
-        ed = jn['_embedded']
+        j = JSON.parse(r[2].first)
+
+        expect(j['_embedded'].keys).to eq(%w[ flack:messages ])
 
         expect(
-          ed.collect { |e| e['exid'] }.sort
+          j['_embedded'].values.first.collect { |e| e['exid'] }.sort
         ).to eq(
           @exids
         )
@@ -122,7 +124,9 @@ describe '/messages' do
 
         j = JSON.parse(r[2].first)
 
-        ms = j['_embedded']
+        expect(j['_embedded'].keys).to eq(%w[ flack:messages/exid ])
+
+        ms = j['_embedded'].values.first
 
         expect(
           ms.size).to eq(3)
@@ -139,17 +143,19 @@ describe '/messages' do
 
         exid = @exids.first
 
-        mr = @app.call(make_env(path: "/messages/#{exid}"))
-        mj = JSON.parse(mr[2].first)
-        mi = mj['_embedded'].first['id']
+        r = @app.call(make_env(path: "/messages/#{exid}"))
+        j = JSON.parse(r[2].first)
+        i = j['_embedded'].values.first[0]['id']
 
-        r = @app.call(make_env(path: "/messages/#{mi}"))
+        r = @app.call(make_env(path: "/messages/#{i}"))
 
         expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
+
         expect(j['exid']).to eq(exid)
+        expect(j.has_key?('_embedded')).to eq(false)
       end
     end
 
@@ -171,12 +177,17 @@ describe '/messages' do
 
         j = JSON.parse(r[2].first)
 
+        expect(j['_embedded'].keys).to eq(%w[ flack:messages/point ])
+
         expect(
-          j['_embedded'].size).to eq(2)
+          j['_embedded'].values.first.size
+        ).to eq(2)
         expect(
-          j['_embedded'].collect { |m| m['point'] }.uniq).to eq(%w[ execute ])
+          j['_embedded'].values.first.collect { |m| m['point'] }.uniq
+        ).to eq(%w[ execute ])
         expect(
-          j['_embedded'].collect { |m| m['exid'] }.sort).to eq(@exids.sort)
+          j['_embedded'].values.first.collect { |m| m['exid'] }.sort
+        ).to eq(@exids.sort)
       end
     end
 
@@ -198,9 +209,11 @@ describe '/messages' do
 
         j = JSON.parse(r[2].first)
 
-        expect(j['_embedded'].size).to eq(1)
-        expect(j['_embedded'][0]['exid']).to eq(exid)
-        expect(j['_embedded'][0]['point']).to eq('execute')
+        expect(j['_embedded'].keys).to eq(%w[ flack:messages/exid/point ])
+
+        expect(j['_embedded'].values.first.size).to eq(1)
+        expect(j['_embedded'].values.first[0]['exid']).to eq(exid)
+        expect(j['_embedded'].values.first[0]['point']).to eq('execute')
 
         r = @app.call(make_env(path: "/messages/#{exid}/terminated"))
 
@@ -209,9 +222,11 @@ describe '/messages' do
 
         j = JSON.parse(r[2].first)
 
-        expect(j['_embedded'].size).to eq(1)
-        expect(j['_embedded'][0]['exid']).to eq(exid)
-        expect(j['_embedded'][0]['point']).to eq('terminated')
+        expect(j['_embedded'].keys).to eq(%w[ flack:messages/exid/point ])
+
+        expect(j['_embedded'].values.first.size).to eq(1)
+        expect(j['_embedded'].values.first[0]['exid']).to eq(exid)
+        expect(j['_embedded'].values.first[0]['point']).to eq('terminated')
       end
     end
   end

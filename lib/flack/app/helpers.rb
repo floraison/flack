@@ -74,7 +74,13 @@ class Flack::App
   def serialize_array(env, data, opts)
 
     { '_links' => links(env),
-      '_embedded' => data.collect { |e| serialize(env, e, opts) } }
+      '_embedded' => {
+        key(env) => data.collect { |e| serialize(env, e, opts) } } }
+  end
+
+  def key(env)
+
+    env['flack.rel'] || 'flack:unspecified-rel'
   end
 
   def determine_root_uri(env)

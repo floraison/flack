@@ -37,7 +37,7 @@ describe '/executions' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['_embedded']).to eq([])
+        expect(j['_embedded']).to eq({ 'flack:executions' => [] })
       end
     end
 
@@ -79,7 +79,7 @@ describe '/executions' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['_embedded']).to eq([])
+        expect(j['_embedded']).to eq({ 'flack:executions/domain' => [] })
       end
     end
 
@@ -93,7 +93,12 @@ describe '/executions' do
         expect(r[1]['Content-Type']).to eq('application/json')
 
         j = JSON.parse(r[2].first)
-        expect(j['_embedded']).to eq([])
+
+        expect(
+          j['_embedded']
+        ).to eq({
+          'flack:executions/domain-dot-star' => []
+        })
       end
     end
   end
@@ -117,14 +122,24 @@ describe '/executions' do
         expect(r[0]).to eq(200)
         expect(r[1]['Content-Type']).to eq('application/json')
 
-        jn = JSON.parse(r[2].first)
-        ed = jn['_embedded']
+        j = JSON.parse(r[2].first)
 
         expect(
-          ed.collect { |e| e['exid'] }.sort
+          j['_embedded'].keys
+        ).to eq(%w[
+          flack:executions
+        ])
+
+        expect(
+          j['_embedded'].values.first.collect { |e| e['exid'] }
         ).to eq(
           @exids
         )
+        expect(
+          j['_embedded'].values.first.collect { |e| e['domain'] }
+        ).to eq(%w[
+          net.ntt net.ntt net.ntt.finance net.ntt.hr net.nttc
+        ])
       end
     end
 
@@ -174,7 +189,13 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
 
         expect(
-          j['_embedded'].collect { |e| e['domain'] }
+          j['_embedded'].keys
+        ).to eq(%w[
+          flack:executions/domain
+        ])
+
+        expect(
+          j['_embedded'].values.first.collect { |e| e['domain'] }
         ).to eq(%w[
           net.ntt net.ntt
         ])
@@ -193,7 +214,13 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
 
         expect(
-          j['_embedded'].collect { |e| e['domain'] }
+          j['_embedded'].keys
+        ).to eq(%w[
+          flack:executions/domain-star
+        ])
+
+        expect(
+          j['_embedded'].values.first.collect { |e| e['domain'] }
         ).to eq(%w[
           net.ntt net.ntt net.ntt.finance net.ntt.hr
         ])
@@ -212,7 +239,13 @@ describe '/executions' do
         j = JSON.parse(r[2].first)
 
         expect(
-          j['_embedded'].collect { |e| e['domain'] }
+          j['_embedded'].keys
+        ).to eq(%w[
+          flack:executions/domain-dot-star
+        ])
+
+        expect(
+          j['_embedded'].values.first.collect { |e| e['domain'] }
         ).to eq(%w[
           net.ntt.finance net.ntt.hr
         ])

@@ -7,15 +7,21 @@ class Flack::App
   def get_messages(env)
 
 # TODO implement paging
+    env['flack.rel'] = 'flack:messages'
+
     respond(env, @unit.messages.all)
   end
 
   # GET /messages/<id>
   def get_messages_i(env)
 
-    exe = @unit.messages[env['flack.args'][0]]
-    return respond_not_found(env) unless exe
-    respond(env, exe)
+    env['flack.rel'] = 'flack:messages'
+
+    if exe = @unit.messages[env['flack.args'][0]]
+      respond(env, exe)
+    else
+      respond_not_found(env)
+    end
   end
 
   # GET /messages/<exid>
@@ -34,6 +40,8 @@ class Flack::App
   # GET /messages/<exid>/<point>
   def get_messages_s_s(env)
 
+    env['flack.rel'] = 'flack:messages/exid/point'
+
     exid, point = env['flack.args']
 
     respond(
@@ -45,10 +53,14 @@ class Flack::App
 
   def get_messages_by_exid(env, exid)
 
+    env['flack.rel'] = 'flack:messages/exid'
+
     respond(env, @unit.messages.where(exid: exid).all)
   end
 
   def get_messages_by_point(env, point)
+
+    env['flack.rel'] = 'flack:messages/point'
 
     respond(env, @unit.messages.where(point: point).all)
   end

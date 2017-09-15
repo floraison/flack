@@ -8,6 +8,8 @@ class Flack::App
   def get_executions(env)
 
 # TODO implement paging
+    env['flack.rel'] = 'flack:executions'
+
     respond(env, @unit.executions.all)
   end
 
@@ -15,9 +17,13 @@ class Flack::App
   #
   def get_executions_i(env)
 
-    exe = @unit.executions[env['flack.args'][0]]
-    return respond_not_found(env) unless exe
-    respond(env, exe)
+    env['flack.rel'] = 'flack:executions/id'
+
+    if exe = @unit.executions[env['flack.args'][0]]
+      respond(env, exe)
+    else
+      respond_not_found(env)
+    end
   end
 
   # GET /executions/<exid>
@@ -40,6 +46,8 @@ class Flack::App
 
   def get_executions_by_exid(env, exid)
 
+    env['flack.rel'] = 'flack:executions/exid'
+
     if exe = @unit.executions[exid: exid]
       respond(env, exe)
     else
@@ -49,18 +57,22 @@ class Flack::App
 
   def get_executions_by_domain(env, dom)
 
-    q =
-      @unit.executions
-    q =
-      if m = dom.match(/\A([^*]+)\*+\z/)
-        if m[1][-1, 1] == '.'
-          q.where(Sequel.like(:domain, "#{m[1]}%"))
-        else
-          q.where(Sequel[{ domain: m[1] }] | Sequel.like(:domain, "#{m[1]}.%"))
-        end
+    q = @unit.executions
+
+    if m = dom.match(/\A([^*]+)\*+\z/)
+      if m[1][-1, 1] == '.'
+        env['flack.rel'] = 'flack:executions/domain-dot-star'
+        q = q.where(Sequel.like(:domain, "#{m[1]}%"))
       else
-        q.where(domain: dom)
+        env['flack.rel'] = 'flack:executions/domain-star'
+        q = q.where(
+          Sequel[{ domain: m[1] }] |
+          Sequel.like(:domain, "#{m[1]}.%"))
       end
+    else
+      env['flack.rel'] = 'flack:executions/domain'
+      q = q.where(domain: dom)
+    end
 
     respond(env, q.all)
   end
