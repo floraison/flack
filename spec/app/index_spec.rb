@@ -36,6 +36,7 @@ describe '/' do
       expect(r[1]['Content-Type']).to eq('application/json')
 
       j = JSON.parse(r[2].first)
+
       expect(
         j['_links'].select { |k, v| k != 'curies' }
       ).to eqj({
@@ -43,7 +44,18 @@ describe '/' do
         'flack:executions' => { href: '/executions' }
       })
 
+      expect(
+        j['_links'].select { |k, v| k == 'curies' }
+      ).to eqj({
+        'curies' => [
+          { name: 'flack',
+            href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
+            templated: true }
+        ]
+      })
+
       f = j['_forms']['flack:forms/message']
+
       expect(
         f
       ).to eqj({
