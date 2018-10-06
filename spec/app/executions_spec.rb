@@ -131,12 +131,16 @@ describe '/executions' do
         ])
 
         expect(
-          j['_embedded'].values.first.collect { |e| e['exid'] }
+          j['_embedded'].values.first
+            .collect { |e| e['exid'] }
+            .sort
         ).to eq(
           @exids
         )
         expect(
-          j['_embedded'].values.first.collect { |e| e['domain'] }
+          j['_embedded'].values.first
+            .collect { |e| e['domain'] }
+            .sort
         ).to eq(%w[
           net.ntt net.ntt net.ntt.finance net.ntt.hr net.nttc
         ])
@@ -195,7 +199,9 @@ describe '/executions' do
         ])
 
         expect(
-          j['_embedded'].values.first.collect { |e| e['domain'] }
+          j['_embedded'].values.first
+            .collect { |e| e['domain'] }
+            .sort
         ).to eq(%w[
           net.ntt net.ntt
         ])
@@ -220,7 +226,9 @@ describe '/executions' do
         ])
 
         expect(
-          j['_embedded'].values.first.collect { |e| e['domain'] }
+          j['_embedded'].values.first
+            .collect { |e| e['domain'] }
+            .sort
         ).to eq(%w[
           net.ntt net.ntt net.ntt.finance net.ntt.hr
         ])
@@ -245,7 +253,9 @@ describe '/executions' do
         ])
 
         expect(
-          j['_embedded'].values.first.collect { |e| e['domain'] }
+          j['_embedded'].values.first
+            .collect { |e| e['domain'] }
+            .sort
         ).to eq(%w[
           net.ntt.finance net.ntt.hr
         ])
