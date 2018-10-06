@@ -59,7 +59,7 @@ class Flack::App
       match = true
       args = []
 
-      for i in 0..flack_path_info.length - 1
+      for i in 0..(flack_path_info.length - 1)
 
         break unless match
 
@@ -73,8 +73,10 @@ class Flack::App
           args << pi.to_i
         elsif mi == 's'
           args << pi
+        elsif mi.is_a?(Regexp)
+          match = pi.match(mi)
         else
-          match = pi == mi
+          match = (pi == mi)
         end
       end
 
@@ -97,7 +99,13 @@ class Flack::App
     .collect(&:to_s)
     .select { |m| m.match(/\A(get|head|put|post|delete)_.+\z/) }
     .select { |m| instance_method(m).arity == 1 }
-    .collect { |m| s = m.split('_'); [ m, s.shift.upcase, s ] }
+    .collect { |m|
+      s = m.split('_')
+      if s.length == 3 && s[2] == 'suffix'
+        [ m, s.shift.upcase, [ /\.#{s[0]}\z/ ] ]
+      else
+        [ m, s.shift.upcase, s ]
+      end }
     .collect(&:freeze).freeze
 end
 
