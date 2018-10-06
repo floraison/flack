@@ -1,11 +1,41 @@
 <!doctype html>
 
 <html>
+
   <head>
+
     <title>flack</title>
+
+    <link rel="stylesheet" href="flack.css" type="text/css" />
+
+    <script src="flack.js"></script>
+    <script src="h-1.1.2-08addd2.min.js"></script>
+    <script src="handlebars.min-v4.0.12.js"></script>
   </head>
+
   <body>
+
     <h1>index.html</h1>
+
+    <h2>executions</h2>
+
+    <div id="executions">
+    </div>
+
+    <!-- scripts -->
+
+    <script>
+      H.onDocumentReady(function() {
+        Flack.loadExecutions();
+      });
+    </script>
+
+    <!-- templates -->
+
+    <script id="xxxTemplate" class="template" type="x-template">
+      <li>{{id}}</li>
+    </script>
+
   </body>
 </html>
 
