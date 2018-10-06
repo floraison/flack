@@ -8,18 +8,18 @@
 require 'spec_helper'
 
 
-describe '/static' do
+describe '/*.{html|css|js}' do
 
   before :each do
 
     @app = Flack::App.new('envs/test/', start: false)
   end
 
-  describe 'GET /static/site.css' do
+  describe 'GET /site.css' do
 
-    it 'serves file' do
+    it 'serves the file' do
 
-      r = @app.call(make_env(path: '/static/site.css'))
+      r = @app.call(make_env(path: '/site.css'))
 
       expect(r[0]).to eq(200)
       expect(r[1]['Content-Type']).to eq('text/css')
@@ -29,7 +29,7 @@ describe '/static' do
 
     it 'stays in static/' do
 
-      r = @app.call(make_env(path: '/static/../app.rb'))
+      r = @app.call(make_env(path: '../app.rb'))
 
       expect(r[0]).to eq(404)
     end
