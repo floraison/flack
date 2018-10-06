@@ -19,7 +19,7 @@ describe '/*.{html|css|js}' do
 
     it 'serves the file' do
 
-      r = @app.call(make_env(path: '/site.css'))
+      r = @app.call(make_env(path: '/flack.css'))
 
       expect(r[0]).to eq(200)
       expect(r[1]['Content-Type']).to eq('text/css')
