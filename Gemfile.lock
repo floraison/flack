@@ -12,7 +12,7 @@ PATH
   remote: .
   specs:
     flack (0.11.0)
-      flor (~> 0.11)
+      flor
       httpclient (~> 2.8)
       rack (~> 1.6)
       sequel (~> 4)
@@ -30,7 +30,7 @@ GEM
     jdbc-sqlite3 (3.8.11.2)
     munemo (1.0.1)
     raabro (1.1.6)
-    rack (1.6.8)
+    rack (1.6.10)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
