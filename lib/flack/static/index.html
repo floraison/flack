@@ -10,7 +10,6 @@
 
     <script src="flack.js"></script>
     <script src="h-1.1.2-08addd2.min.js"></script>
-    <script src="handlebars.min-v4.0.12.js"></script>
   </head>
 
   <body>
@@ -22,18 +21,46 @@
     <div id="executions">
     </div>
 
-    <!-- scripts -->
+    <h2>launch</h2>
 
-    <script>
-      H.onDocumentReady(function() {
-        Flack.loadExecutions();
-      });
-    </script>
+<!-- msg = { point: 'launch', domain: 'org.example', tree: t } -->
+    <form id="launch" method="POST" action="message" enctype="multipart/form-data">
+      <div>
+        <label for="point">point</label>
+        <input type="text" name="point" value="launch" />
+      </div>
+      <div>
+        <label for="point">domain</label>
+        <input type="text" name="domain" value="org.example" />
+      </div>
+      <div>
+        <label for="point">tree/flow</label>
+        <textarea name="tree" autocomplete="off">
+sequence
+  alpha _
+  bravo _
+        </textarea>
+      </div>
+      <div>
+        <input type="submit" name="launch" value="Launch a new execution" />
+      </div>
+    </form>
 
     <!-- templates -->
 
-    <script id="xxxTemplate" class="template" type="x-template">
-      <li>{{id}}</li>
+    <script>
+      var templates = {};
+      templates.noExecutions = function() {
+        return H.grow(function() {
+          div('.no-executions', 'Found no executions');
+        });
+      };
+    </script>
+
+    <!-- scripts -->
+
+    <script>
+      H.onDocumentReady(Flack.init);
     </script>
 
   </body>
