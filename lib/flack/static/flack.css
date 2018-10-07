@@ -28,3 +28,34 @@ table {
 
 /* flack.css proper */
 
+body {
+  font-size: 14pt;
+  margin-left: 0.35rem;
+}
+h1 {
+  margin-top: 0.7rem;
+  font-size: 210%;
+  font-weight: bold;
+}
+h2 {
+  margin-top: 1.4rem;
+  margin-bottom: 0.49rem;;
+  font-size: 140%;
+  font-weight: 110%;;
+}
+form#launch > div {
+  width: 21rem;
+}
+form#launch label span {
+  display: inline-block;
+  vertical-align: top;
+  min-width: 6.3rem;
+}
+form#launch input[type="text"], textarea {
+  width: 63%;
+  font-size: 84%;
+}
+form#launch textarea {
+  height: 4.9rem;
+}
+

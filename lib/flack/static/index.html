@@ -14,7 +14,7 @@
 
   <body>
 
-    <h1>index.html</h1>
+    <h1>flack</h1>
 
     <h2>executions</h2>
 
@@ -23,26 +23,32 @@
 
     <h2>launch</h2>
 
-<!-- msg = { point: 'launch', domain: 'org.example', tree: t } -->
-    <form id="launch" method="POST" action="message" enctype="multipart/form-data">
+    <form id="launch">
       <div>
-        <label for="point">point</label>
-        <input type="text" name="point" value="launch" />
+        <label>
+          <span>point</span>
+          <input type="text" name="point" value="launch" />
+        </label>
       </div>
       <div>
-        <label for="point">domain</label>
-        <input type="text" name="domain" value="org.example" />
+        <label>
+          <span>domain</span>
+          <input type="text" name="domain" value="org.example" />
+        </label>
       </div>
       <div>
-        <label for="point">tree/flow</label>
-        <textarea name="tree" autocomplete="off">
+        <label>
+          <span>tree/flow</span>
+          <textarea name="tree" autocomplete="off">
 sequence
   alpha _
   bravo _
-        </textarea>
+          </textarea>
+        </label>
       </div>
       <div>
         <input type="submit" name="launch" value="Launch a new execution" />
+          <!-- see flack.js Flack/launchSubmit() for the launch POST request -->
       </div>
     </form>
 
