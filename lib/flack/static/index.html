@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="flack.css" type="text/css" />
 
     <script src="flack.js"></script>
-    <script src="h-1.1.2-cb2c9eb.min.js"></script>
+    <script src="h-1.1.2-bddcd83.min.js"></script>
   </head>
 
   <body>
@@ -65,9 +65,9 @@ sequence
       });
       templates.execution = H.makeTemplate(function(e) {
         return div('.execution',
-          span('.exid', e.exid));
-          //span('.actions',
-          //  input({ type: 'submit' }, 'x')));
+          span('.exid', e.exid),
+          span('.actions',
+            input({ type: 'submit' })));
       });
     </script>
 
