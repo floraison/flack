@@ -83,7 +83,25 @@ form#launch textarea {
   /*color: white;*/
 }
 
-.no-executions {
-  color: lightgrey;
+table {
+  /*table-layout: fixed;*/
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid lightgrey;
+}
+th {
+  font-weight: bold;
+  padding: 0.35rem;
+  text-align: left;
+}
+td {
+  padding: 0.21rem;
+}
+tbody tr:nth-child(odd) {
+  background-color: lightgrey;
+}
+
+table#executions th.nodes, td.nodes, td.actions {
+  text-align: right;
 }
 

@@ -9,10 +9,14 @@
     <link rel="stylesheet" href="flack.css" type="text/css" />
 
     <script src="flack.js"></script>
-    <script src="h-1.1.2-bddcd83.min.js"></script>
+    <script src="h-1.1.2-8927ae3.min.js"></script>
   </head>
 
   <body>
+
+    <script>
+      var templates = {};
+    </script>
 
     <h1>flack</h1>
 
@@ -22,8 +26,32 @@
 
     <h2>executions</h2>
 
-    <div id="executions">
-    </div>
+    <table id="executions">
+      <thead>
+        <tr>
+          <th>exid</th>
+          <th>started</th>
+          <th class="nodes">nodes</th>
+          <th><!-- actions --></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <script>
+      templates.noExecutions = H.makeTemplate(function() {
+        return tr('.no-executions',
+          td('Found no executions', { colspan: 4 }));
+      });
+      templates.execution = H.makeTemplate(function(e) {
+        return tr('.execution',
+          td('.exid', e.exid),
+          td('.started', e.data.start),
+          td('.nodes', e.nodeCount),
+          td('.actions', input({ type: 'submit', value: 'Cancel' })));
+      });
+    </script>
 
     <h2>launch</h2>
 
@@ -55,21 +83,6 @@ sequence
           <!-- see flack.js Flack/launchSubmit() for the launch POST request -->
       </div>
     </form>
-
-    <!-- templates -->
-
-    <script>
-      var templates = {};
-      templates.noExecutions = H.makeTemplate(function() {
-        return div('.no-executions', 'Found no executions');
-      });
-      templates.execution = H.makeTemplate(function(e) {
-        return div('.execution',
-          span('.exid', e.exid),
-          span('.actions',
-            input({ type: 'submit' })));
-      });
-    </script>
 
     <!-- scripts -->
 
