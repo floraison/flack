@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="flack.css" type="text/css" />
 
     <script src="flack.js"></script>
-    <script src="h-1.1.2-08addd2.min.js"></script>
+    <script src="h-1.1.2-cb2c9eb.min.js"></script>
   </head>
 
   <body>
 
     <h1>flack</h1>
+
+    <div id="flash-success" class="flash"></div>
+    <div id="flash-warning" class="flash"></div>
+    <div id="flash-error" class="flash"></div>
 
     <h2>executions</h2>
 
@@ -56,11 +60,15 @@ sequence
 
     <script>
       var templates = {};
-      templates.noExecutions = function() {
-        return H.grow(function() {
-          div('.no-executions', 'Found no executions');
-        });
-      };
+      templates.noExecutions = H.makeTemplate(function() {
+        return div('.no-executions', 'Found no executions');
+      });
+      templates.execution = H.makeTemplate(function(e) {
+        return div('.execution',
+          span('.exid', e.exid));
+          //span('.actions',
+          //  input({ type: 'submit' }, 'x')));
+      });
     </script>
 
     <!-- scripts -->

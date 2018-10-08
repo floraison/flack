@@ -30,7 +30,7 @@ table {
 
 body {
   font-size: 14pt;
-  margin-left: 0.35rem;
+  margin: 0 0.35rem;
 }
 h1 {
   margin-top: 0.7rem;
@@ -57,5 +57,33 @@ form#launch input[type="text"], textarea {
 }
 form#launch textarea {
   height: 4.9rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.flash {
+  margin-top: 0.14em;
+  padding: 0.35em;
+}
+#flash-success {
+  border: 1px solid darkgreen;
+  background-color: lightgreen;
+  /*color: white;*/
+}
+#flash-warning {
+  border: 1px solid darkyellow;
+  background-color: lightyellow;
+  /*color: white;*/
+}
+#flash-error {
+  border: 1px solid darkred;
+  background-color: lightred;
+  /*color: white;*/
+}
+
+.no-executions {
+  color: lightgrey;
 }
 
