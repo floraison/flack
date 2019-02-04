@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/floraison/flor
-  revision: e14e9d8661ba54a7545f228644b08ecb22f57906
-  specs:
-    flor (0.15.0)
-      fugit (>= 1.0.0)
-      munemo (>= 1.0.1)
-      raabro (>= 1.1.5)
-      sequel (~> 4)
-
 PATH
   remote: .
   specs:
@@ -20,36 +10,43 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    diff-lcs (1.2.5)
-    et-orbi (1.1.6)
+    concurrent-ruby (1.1.4)
+    dense (1.1.6)
+      raabro (~> 1.1, >= 1.1.5)
+    diff-lcs (1.3)
+    et-orbi (1.1.7)
       tzinfo
-    fugit (1.1.6)
-      et-orbi (~> 1.1, >= 1.1.6)
+    flor (0.16.0)
+      dense (~> 1.1, >= 1.1.6)
+      fugit (~> 1.1, >= 1.1.8)
+      munemo (~> 1.0, >= 1.0.1)
+      raabro (~> 1.1, >= 1.1.5)
+      sequel (~> 4)
+    fugit (1.1.8)
+      et-orbi (~> 1.1, >= 1.1.7)
       raabro (~> 1.1)
     httpclient (2.8.3)
     jdbc-sqlite3 (3.8.11.2)
     munemo (1.0.1)
     raabro (1.1.6)
-    rack (1.6.10)
-    rspec (3.4.0)
-      rspec-core (~> 3.4.0)
-      rspec-expectations (~> 3.4.0)
-      rspec-mocks (~> 3.4.0)
-    rspec-core (3.4.4)
-      rspec-support (~> 3.4.0)
-    rspec-expectations (3.4.0)
+    rack (1.6.11)
+    rspec (3.8.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
+    rspec-core (3.8.0)
+      rspec-support (~> 3.8.0)
+    rspec-expectations (3.8.2)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.4.0)
-    rspec-mocks (3.4.1)
+      rspec-support (~> 3.8.0)
+    rspec-mocks (3.8.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.4.0)
-    rspec-support (3.4.1)
+      rspec-support (~> 3.8.0)
+    rspec-support (3.8.0)
     sequel (4.49.0)
     sqlite3 (1.3.13)
-    thread_safe (0.3.6)
-    thread_safe (0.3.6-java)
-    tzinfo (1.2.5)
-      thread_safe (~> 0.1)
+    tzinfo (2.0.0)
+      concurrent-ruby (~> 1.0)
 
 PLATFORMS
   java
@@ -57,10 +54,9 @@ PLATFORMS
 
 DEPENDENCIES
   flack!
-  flor!
   jdbc-sqlite3 (= 3.8.11.2)
   rspec (~> 3)
   sqlite3 (= 1.3.13)
 
 BUNDLED WITH
-   1.17.1
+   2.0.1
