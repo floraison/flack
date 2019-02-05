@@ -2,7 +2,7 @@
 # flack CHANGELOG.md
 
 
-## flack 0.11.0  not yet released
+## flack 0.16.1  released 2019-02-05
 
 - Depend on Sequel 5 (Sequel 4 and 5 seem OK)
 - GET /executions/:domain
