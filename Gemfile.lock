@@ -5,7 +5,7 @@ PATH
       flor
       httpclient (~> 2.8)
       rack (~> 1.6)
-      sequel (~> 4)
+      sequel (~> 5)
 
 GEM
   remote: https://rubygems.org/
@@ -16,12 +16,12 @@ GEM
     diff-lcs (1.3)
     et-orbi (1.1.7)
       tzinfo
-    flor (0.16.0)
+    flor (0.16.1)
       dense (~> 1.1, >= 1.1.6)
       fugit (~> 1.1, >= 1.1.8)
       munemo (~> 1.0, >= 1.0.1)
       raabro (~> 1.1, >= 1.1.5)
-      sequel (~> 4)
+      sequel (~> 5)
     fugit (1.1.8)
       et-orbi (~> 1.1, >= 1.1.7)
       raabro (~> 1.1)
@@ -43,7 +43,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    sequel (4.49.0)
+    sequel (5.17.0)
     sqlite3 (1.3.13)
     tzinfo (2.0.0)
       concurrent-ruby (~> 1.0)

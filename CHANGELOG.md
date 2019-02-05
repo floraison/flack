@@ -4,6 +4,7 @@
 
 ## flack 0.11.0  not yet released
 
+- Depend on Sequel 5 (Sequel 4 and 5 seem OK)
 - GET /executions/:domain
 - GET /executions/:domain*
 - GET /executions/:domain.*
