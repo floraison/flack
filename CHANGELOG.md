@@ -4,6 +4,8 @@
 
 ## flack 0.17.0  not yet released
 
+- Leave Sequel dependency to flor
+
 
 ## flack 0.16.1  released 2019-02-05
 
