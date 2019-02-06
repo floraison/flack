@@ -1,11 +1,10 @@
 PATH
   remote: .
   specs:
-    flack (0.11.0)
+    flack (0.17.0)
       flor
       httpclient (~> 2.8)
       rack (~> 1.6)
-      sequel (~> 5)
 
 GEM
   remote: https://rubygems.org/
@@ -26,7 +25,6 @@ GEM
       et-orbi (~> 1.1, >= 1.1.7)
       raabro (~> 1.1)
     httpclient (2.8.3)
-    jdbc-sqlite3 (3.8.11.2)
     munemo (1.0.1)
     raabro (1.1.6)
     rack (1.6.11)
@@ -49,7 +47,6 @@ GEM
       concurrent-ruby (~> 1.0)
 
 PLATFORMS
-  java
   ruby
 
 DEPENDENCIES
@@ -59,4 +56,4 @@ DEPENDENCIES
   sqlite3 (= 1.3.13)
 
 BUNDLED WITH
-   2.0.1
+   1.17.3
