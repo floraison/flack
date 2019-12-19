@@ -31,7 +31,7 @@ A web front-end to the flor workflow engine
   #s.add_runtime_dependency 'flor', "~> #{flor_version}"
   s.add_runtime_dependency 'flor'
 
-  s.add_runtime_dependency 'rack', '~> 1.6'
+  s.add_runtime_dependency 'rack', '>= 1.6', '< 3.0'
   s.add_runtime_dependency 'httpclient', '~> 2.8'
 
   s.add_development_dependency 'rspec', '~> 3'
