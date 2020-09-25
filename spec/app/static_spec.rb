@@ -24,7 +24,7 @@ describe '/*.{html|css|js}' do
       expect(r[0]).to eq(200)
       expect(r[1]['Content-Type']).to eq('text/css')
       expect(r[1]['Last-Modified']).not_to eq(nil)
-      expect(r[2].class).to eq(Rack::File)
+      expect(r[2].class).to eq(Rack::File::Iterator)
     end
 
     it 'stays in static/' do
