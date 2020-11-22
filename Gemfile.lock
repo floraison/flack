@@ -9,11 +9,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.7)
     dense (1.1.6)
       raabro (~> 1.1, >= 1.1.5)
     diff-lcs (1.3)
-    et-orbi (1.2.2)
+    et-orbi (1.2.4)
       tzinfo
     flor (0.18.0)
       dense (~> 1.1)
@@ -21,12 +21,12 @@ GEM
       munemo (~> 1.0)
       raabro (~> 1.1)
       sequel (~> 5.0)
-    fugit (1.3.3)
+    fugit (1.4.0)
       et-orbi (~> 1.1, >= 1.1.8)
-      raabro (~> 1.1)
+      raabro (~> 1.4)
     httpclient (2.8.3)
     munemo (1.0.1)
-    raabro (1.1.6)
+    raabro (1.4.0)
     rack (2.2.3)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
@@ -41,9 +41,9 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    sequel (5.27.0)
+    sequel (5.38.0)
     sqlite3 (1.3.13)
-    tzinfo (2.0.0)
+    tzinfo (2.0.3)
       concurrent-ruby (~> 1.0)
 
 PLATFORMS
