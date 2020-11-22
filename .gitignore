@@ -4,8 +4,7 @@
 
 *.swp
 
-.vimrc
-.viminfo
+.vim*
 .bxsinfo.yaml
 .bxsenvs.yaml
 
