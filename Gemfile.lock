@@ -42,7 +42,6 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     sequel (5.39.0)
-    sqlite3 (1.3.13)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
 
@@ -51,9 +50,7 @@ PLATFORMS
 
 DEPENDENCIES
   flack!
-  jdbc-sqlite3 (= 3.8.11.2)
   rspec (~> 3)
-  sqlite3 (= 1.3.13)
 
 BUNDLED WITH
    1.17.3
