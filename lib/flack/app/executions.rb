@@ -64,6 +64,10 @@ class Flack::App
 
   def get_executions_by_domain(env, dom)
 
+    qs = CGI.parse(env['QUERY_STRING'] || '')
+    statuses = qs['status']
+    statuses = nil if statuses == []
+
     q = @unit.executions
 
     if m = dom.match(/\A([^*]+)\*+\z/)
@@ -80,6 +84,8 @@ class Flack::App
       env['flack.rel'] = 'flack:executions/domain'
       q = q.where(domain: dom)
     end
+
+    q = q.where(status: statuses) if statuses
 
     respond(env, q.all)
   end
