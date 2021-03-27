@@ -99,6 +99,7 @@ class Flack::App
     .collect(&:to_s)
     .select { |m| m.match(/\A(get|head|put|post|delete)_.+\z/) }
     .select { |m| instance_method(m).arity == 1 }
+    .sort
     .collect { |m|
       s = m.split('_')
       if s.length == 3 && s[2] == 'suffix'
