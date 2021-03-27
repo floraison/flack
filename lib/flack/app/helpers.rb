@@ -158,6 +158,11 @@ class Flack::App
       method: 'POST',
       _inputs: { 'flack:forms/message-content' => { type: 'json' } } }
 
+    h['flack:forms/execution-deletion'] = {
+      action: rel(env, '/executions/{exid}'),
+      method: 'DELETE',
+      _inputs: {} }
+
     h
   end
 

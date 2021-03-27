@@ -149,7 +149,11 @@ describe '/' do
             action: '/flack/message',
             method: 'POST',
             _inputs: {
-              'flack:forms/message-content' => { type: 'json' } } }
+              'flack:forms/message-content' => { type: 'json' } } },
+          'flack:forms/execution-deletion' => {
+            action: '/flack/executions/{exid}',
+            method: 'DELETE',
+            _inputs: {} }
         })
       end
     end

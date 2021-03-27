@@ -4,6 +4,7 @@
 
 ## flack 1.2.0  not yet released
 
+- Introduce DELETE /executions/:exid
 - Ensure METHS order, stabilize across Ruby versions
 
 
