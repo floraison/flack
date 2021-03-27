@@ -2,6 +2,11 @@
 # flack CHANGELOG.md
 
 
+## flack 1.2.0  not yet released
+
+- ensure METHS order, stabilize across Ruby versions
+
+
 ## flack 1.0.0  released 2020-11-22
 
 - Leave Sequel dependency to flor
