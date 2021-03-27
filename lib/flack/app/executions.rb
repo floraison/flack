@@ -10,7 +10,14 @@ class Flack::App
 # TODO implement paging
     env['flack.rel'] = 'flack:executions'
 
-    respond(env, @unit.executions.all)
+    qs = CGI.parse(env['QUERY_STRING'] || '')
+    statuses = qs['status']
+    statuses = nil if statuses == []
+
+    q = @unit.executions
+    q = q.where(status: statuses) if statuses
+
+    respond(env, q.all)
   end
 
   # GET /executions/<id>

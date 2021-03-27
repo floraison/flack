@@ -1,4 +1,5 @@
 
+require 'cgi'
 require 'rack'
 
 require 'flor/unit'

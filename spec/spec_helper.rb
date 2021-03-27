@@ -17,8 +17,8 @@ module Helpers
 
     me = opts[:method] || 'GET'
     ho = opts[:host] || '127.0.0.1:7006'
-    pa = opts[:path] || '/'
-    qs = opts[:query] || ''
+    pa = opts[:path] || opts[:p] || '/'
+    qs = opts[:query] || opts[:qs] || ''
     sn = opts[:script_name] || ''
 
     body = opts[:body]
