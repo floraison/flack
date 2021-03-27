@@ -130,9 +130,13 @@ class Flack::App
       templated: true }]
 
     link(env, h, 'executions')
+    link(env, h, 'executions?status={s}')
     link(env, h, 'executions/{domain}')
     link(env, h, 'executions/{domain}*')
     link(env, h, 'executions/{domain}.*')
+    link(env, h, 'executions/{domain}?status={s}')
+    link(env, h, 'executions/{domain}*?status={s}')
+    link(env, h, 'executions/{domain}.*?status={s}')
     link(env, h, 'executions/{exid}')
     link(env, h, 'executions/{id}')
 

@@ -44,12 +44,20 @@ describe '/' do
           href: '/' },
         'flack:executions' => {
           href: '/executions' },
+        'flack:executions?status=s' => {
+          href: '/executions?status={s}', templated: true },
         'flack:executions/domain' => {
           href: '/executions/{domain}', templated: true },
         'flack:executions/domain-star' => {
           href: '/executions/{domain}*', templated: true },
         'flack:executions/domain-dot-star' => {
           href: '/executions/{domain}.*', templated: true },
+        'flack:executions/domain?status=s' => {
+          href: '/executions/{domain}?status={s}', templated: true },
+        'flack:executions/domain-star?status=s' => {
+          href: '/executions/{domain}*?status={s}', templated: true },
+        'flack:executions/domain-dot-star?status=s' => {
+          href: '/executions/{domain}.*?status={s}', templated: true },
         'flack:executions/exid' => {
           href: '/executions/{exid}', templated: true },
         'flack:executions/id' => {
@@ -101,30 +109,38 @@ describe '/' do
         expect(
           j['_links'].select { |k, v| k != 'curies' }
         ).to eqj({
-          'self' => {
-            href: '/flack/' },
-          'flack:executions' => {
-            href: '/flack/executions' },
-          'flack:executions/domain' => {
-            href: '/flack/executions/{domain}', templated: true },
-          'flack:executions/domain-star' => {
-            href: '/flack/executions/{domain}*', templated: true },
-          'flack:executions/domain-dot-star' => {
-            href: '/flack/executions/{domain}.*', templated: true },
-          'flack:executions/exid' => {
-            href: '/flack/executions/{exid}', templated: true },
-          'flack:executions/id' => {
-            href: '/flack/executions/{id}', templated: true },
-          'flack:messages' => {
-            href: '/flack/messages' },
-          'flack:messages/point' => {
-            href: '/flack/messages/{point}', templated: true },
-          'flack:messages/exid/point' => {
-            href: '/flack/messages/{exid}/{point}', templated: true },
-          'flack:messages/exid' => {
-            href: '/flack/messages/{exid}', templated: true },
-          'flack:messages/id' => {
-            href: '/flack/messages/{id}', templated: true },
+        'self' => {
+          href: '/flack/' },
+        'flack:executions' => {
+          href: '/flack/executions' },
+        'flack:executions?status=s' => {
+          href: '/flack/executions?status={s}', templated: true },
+        'flack:executions/domain' => {
+          href: '/flack/executions/{domain}', templated: true },
+        'flack:executions/domain-star' => {
+          href: '/flack/executions/{domain}*', templated: true },
+        'flack:executions/domain-dot-star' => {
+          href: '/flack/executions/{domain}.*', templated: true },
+        'flack:executions/domain?status=s' => {
+          href: '/flack/executions/{domain}?status={s}', templated: true },
+        'flack:executions/domain-star?status=s' => {
+          href: '/flack/executions/{domain}*?status={s}', templated: true },
+        'flack:executions/domain-dot-star?status=s' => {
+          href: '/flack/executions/{domain}.*?status={s}', templated: true },
+        'flack:executions/exid' => {
+          href: '/flack/executions/{exid}', templated: true },
+        'flack:executions/id' => {
+          href: '/flack/executions/{id}', templated: true },
+        'flack:messages' => {
+          href: '/flack/messages' },
+        'flack:messages/point' => {
+          href: '/flack/messages/{point}', templated: true },
+        'flack:messages/exid/point' => {
+          href: '/flack/messages/{exid}/{point}', templated: true },
+        'flack:messages/exid' => {
+          href: '/flack/messages/{exid}', templated: true },
+        'flack:messages/id' => {
+          href: '/flack/messages/{id}', templated: true },
         })
         expect(
           j['_forms']
