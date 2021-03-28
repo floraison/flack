@@ -109,6 +109,7 @@ class Flack::App
     l[:templated] = true if type.index('{')
 
     rel_right_part = type
+      .gsub(/\{\?[^}]*\}/, '')
       .gsub(/[{}]/, '')
       .gsub(/\./, '-dot')
       .gsub(/\*/, '-star')
