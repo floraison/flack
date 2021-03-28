@@ -132,14 +132,10 @@ class Flack::App
 
     h['curies'] = CURIES
 
-    link(env, h, 'executions')
-    link(env, h, 'executions?status={s}')
-    link(env, h, 'executions/{domain}')
-    link(env, h, 'executions/{domain}*')
-    link(env, h, 'executions/{domain}.*')
-    link(env, h, 'executions/{domain}?status={s}')
-    link(env, h, 'executions/{domain}*?status={s}')
-    link(env, h, 'executions/{domain}.*?status={s}')
+    link(env, h, 'executions{?status}')
+    link(env, h, 'executions/{domain}{?status}')
+    link(env, h, 'executions/{domain}*{?status}')
+    link(env, h, 'executions/{domain}.*{?status}')
     link(env, h, 'executions/{exid}')
     link(env, h, 'executions/{id}')
 
@@ -148,6 +144,12 @@ class Flack::App
     link(env, h, 'messages/{exid}/{point}')
     link(env, h, 'messages/{exid}')
     link(env, h, 'messages/{id}')
+
+    link(env, h, 'pointers{?type}')
+    link(env, h, 'pointers/{exid}{?type}')
+    link(env, h, 'pointers/{domain}{?type}')
+    link(env, h, 'pointers/{domain}*{?type}')
+    link(env, h, 'pointers/{domain}.*{?type}')
 
     h
   end
