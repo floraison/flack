@@ -70,3 +70,9 @@ stop:
 restart:
 	@if [ -f $(PID_FILE) ]; then make -s stop; fi; make -s start
 
+# Calls / and lists the links available
+#
+links:
+	bundle exec ruby -Ilib -r 'flack' \
+      -e "app = Flack::App.new('envs/test/', start: false); pp JSON.parse(app.call('REQUEST_METHOD' => 'GET', 'PATH_INFO' => '/', 'REQUEST_PATH' => '/', 'SCRIPT_NAME' => '')[2].first)"
+
