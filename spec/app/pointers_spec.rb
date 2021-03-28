@@ -97,7 +97,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -107,12 +107,12 @@ describe '/pointers' do
             n: "name", ni: "0", t: "var", v: "1" },
           { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt",
-            n: "talbot", ni: "0", t: "tag", v: nil },
           { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
           { d: "net.ntt.hr",
-            n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
+            n: "remote", ni: "0_1", t: "tasker", v: "galactic" },
+          { d: "net.ntt",
+            n: "talbot", ni: "0", t: "tag", v: nil }
         ])
       end
     end
@@ -137,7 +137,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -147,12 +147,12 @@ describe '/pointers' do
             n: "name", ni: "0", t: "var", v: "1" },
           { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt",
-            n: "talbot", ni: "0", t: "tag", v: nil },
           { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
           { d: "net.ntt.hr",
-            n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
+            n: "remote", ni: "0_1", t: "tasker", v: "galactic" },
+          { d: "net.ntt",
+            n: "talbot", ni: "0", t: "tag", v: nil }
         ])
       end
     end
@@ -173,7 +173,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -201,7 +201,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -211,12 +211,12 @@ describe '/pointers' do
             n: "name", ni: "0", t: "var", v: "1" },
           { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt",
-            n: "talbot", ni: "0", t: "tag", v: nil },
           { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
           { d: "net.ntt.hr",
-            n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
+            n: "remote", ni: "0_1", t: "tasker", v: "galactic" },
+          { d: "net.ntt",
+            n: "talbot", ni: "0", t: "tag", v: nil }
         ])
       end
 
@@ -232,7 +232,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -261,7 +261,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
@@ -288,7 +288,7 @@ describe '/pointers' do
         expect(
           j['_embedded'].values.first
             .sort_by { |e|
-              e['id'] }
+              "#{e['domain']}/#{e['type']}/#{e['value']}" }
             .collect { |e| {
               d: e['domain'],
               t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
