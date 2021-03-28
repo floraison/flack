@@ -326,10 +326,10 @@ describe '/executions' do
       @app.unit.wait('idle')
     end
 
-    it 'goes 404 if the execution does not exist' do
+    it 'goes 200 if the execution exists' do
 
       exid = @exids.first
-p exid
+#p exid
 
       r = @app.call(make_env(me: 'DELETE', path: "/executions/#{exid}"))
 
@@ -354,7 +354,15 @@ p exid
         ).to eq(@exids - [ exid ])
     end
 
-    it 'goes 200 if the execution exists'
+    it 'goes 404 if the execution does not exist' do
+
+      exid = @exids.first + 'NADA'
+
+      r = @app.call(make_env(me: 'DELETE', path: "/executions/#{exid}"))
+
+      expect(r[0]).to eq(404)
+      expect(r[1]['Content-Type']).to eq('application/json')
+    end
   end
 end
 
