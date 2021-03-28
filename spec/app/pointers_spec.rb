@@ -100,18 +100,18 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "name", ni: "0", t: "var", v: "1" },
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt", da: nil,
+          { d: "net.ntt",
             n: "talbot", ni: "0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
         ])
       end
@@ -140,18 +140,18 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "name", ni: "0", t: "var", v: "1" },
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt", da: nil,
+          { d: "net.ntt",
             n: "talbot", ni: "0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
         ])
       end
@@ -176,12 +176,12 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
         ])
       end
@@ -204,18 +204,18 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "name", ni: "0", t: "var", v: "1" },
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt", da: nil,
+          { d: "net.ntt",
             n: "talbot", ni: "0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "turbo", ni: "0_0", t: "tag", v: nil },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
         ])
       end
@@ -235,10 +235,10 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: 'net.ntt', da: nil,
+          { d: 'net.ntt',
             n: 'talbot', ni: '0', t: 'tag', v: nil },
         ])
       end
@@ -264,10 +264,10 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: 'net.ntt.hr', da: nil,
+          { d: 'net.ntt.hr',
             n: 'remote', ni: '0_1', t: 'tasker', v: 'galactic' }
         ])
       end
@@ -291,14 +291,14 @@ describe '/pointers' do
               e['id'] }
             .collect { |e| {
               d: e['domain'],
-              t: e['type'], n: e['name'], v: e['value'], da: e['data'],
+              t: e['type'], n: e['name'], v: e['value'], #da: e['data'],
               ni: e['nid'] } }
         ).to eq([
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "name", ni: "0", t: "var", v: "1" },
-          { d: "net.ntt.finance", da: nil,
+          { d: "net.ntt.finance",
             n: "a", :ni=>"0", t: "var", v: "2" },
-          { d: "net.ntt.hr", da: nil,
+          { d: "net.ntt.hr",
             n: "remote", ni: "0_1", t: "tasker", v: "galactic" }
         ])
       end
