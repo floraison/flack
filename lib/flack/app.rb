@@ -7,6 +7,7 @@ require 'flack/app/static'
 require 'flack/app/message'
 require 'flack/app/executions'
 require 'flack/app/messages'
+require 'flack/app/pointers'
 
 
 class Flack::App
