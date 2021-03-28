@@ -166,7 +166,8 @@ class Flack::App
     h['flack:forms/execution-deletion'] = {
       action: rel(env, '/executions/{exid}'),
       method: 'DELETE',
-      _inputs: {} }
+      _inputs: {},
+      templated: true }
 
     h
   end

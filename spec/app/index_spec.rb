@@ -158,7 +158,8 @@ describe '/' do
           'flack:forms/execution-deletion' => {
             action: '/flack/executions/{exid}',
             method: 'DELETE',
-            _inputs: {} }
+            _inputs: {},
+            templated: true }
         })
       end
     end
