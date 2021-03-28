@@ -106,11 +106,15 @@ describe '/' do
 
         j = JSON.parse(r[2].first)
 
+        curies_href =
+          'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}'
+
         expect(
-          j['_links'].select { |k, v| k != 'curies' }
+          j['_links']
         ).to eqj({
         'self' => {
           href: '/flack/' },
+        'curies' => [ { name: 'flack', href: curies_href, templated: true } ],
         'flack:executions' => {
           href: '/flack/executions' },
         'flack:executions?status=s' => {
@@ -145,6 +149,7 @@ describe '/' do
         expect(
           j['_forms']
         ).to eqj({
+          'curies' => [ { name: 'flack', href: curies_href, templated: true } ],
           'flack:forms/message' => {
             action: '/flack/message',
             method: 'POST',

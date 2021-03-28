@@ -115,6 +115,11 @@ class Flack::App
     h["flack:#{rel_right_part}"] = l
   end
 
+  CURIES = [ {
+    name: 'flack',
+    href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
+    templated: true } ].freeze
+
   def links(env)
 
     h = {}
@@ -124,10 +129,7 @@ class Flack::App
     m = env['REQUEST_METHOD']
     h['self'][:method] = m unless %w[ GET HEAD ].include?(m)
 
-    h['curies'] = [{
-      name: 'flack',
-      href: 'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
-      templated: true }]
+    h['curies'] = CURIES
 
     link(env, h, 'executions')
     link(env, h, 'executions?status={s}')
@@ -152,6 +154,8 @@ class Flack::App
   def forms(env)
 
     h = {}
+
+    h['curies'] = CURIES
 
     h['flack:forms/message'] = {
       action: rel(env, '/message'),
