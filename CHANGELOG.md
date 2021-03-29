@@ -2,8 +2,10 @@
 # flack CHANGELOG.md
 
 
-## flack 1.2.0  not yet released
+## flack 1.2.0  released 2021-03-29
 
+- Simplify links
+- Remove dependency on HttpClient gem
 - Introduce DELETE /executions/:exid
 - Ensure METHS order, stabilize across Ruby versions
 
