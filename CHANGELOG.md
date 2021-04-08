@@ -2,7 +2,7 @@
 # CHANGELOG.md
 
 
-## flack 1.2.1  not yet released
+## flack 1.2.1  released 2021-04-08
 
 - Respond with a proper 500 error when necessary (and dump to $stderr)
 
