@@ -92,6 +92,16 @@ class Flack::App
     end
 
     respond_not_found(env)
+
+  rescue => err
+
+    $stderr.puts '=' * 80
+    $stderr.puts Time.now.to_s
+    $stderr.puts err.inspect
+    $stderr.puts err.backtrace
+    $stderr.puts ('=' * 79) + '.'
+
+    respond_internal_server_error(env, err)
   end
 
   def get_debug(env); debug_respond(env); end

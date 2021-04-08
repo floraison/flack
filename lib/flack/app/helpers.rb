@@ -184,5 +184,10 @@ class Flack::App
 
     respond(env, {}, code: 404, error: error)
   end
+
+  def respond_internal_server_error(env, error=nil)
+
+    respond(env, {}, code: 500, error: error)
+  end
 end
 

@@ -4,6 +4,8 @@
 
 ## flack 1.2.1  not yet released
 
+- Respond with a proper 500 error when necessary (and dump to $stderr)
+
 
 ## flack 1.2.0  released 2021-03-29
 
