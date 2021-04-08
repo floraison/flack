@@ -97,8 +97,11 @@ class Flack::App
 
     $stderr.puts '=' * 80
     $stderr.puts Time.now.to_s
+    $stderr.puts '-' * 80
     $stderr.puts err.inspect
     $stderr.puts err.backtrace
+    $stderr.puts '-' * 80
+    PP.pp(env, $stderr)
     $stderr.puts ('=' * 79) + '.'
 
     respond_internal_server_error(env, err)

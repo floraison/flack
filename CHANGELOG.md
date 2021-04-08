@@ -4,6 +4,8 @@
 
 ## flack 1.2.2  not yet released
 
+- let #rel fall back on PATH_INFO if no REQUEST_PATH
+
 
 ## flack 1.2.1  released 2021-04-08
 
