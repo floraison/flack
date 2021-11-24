@@ -2,6 +2,9 @@
 # CHANGELOG.md
 
 
+## flack 1.3.0  not yet released
+
+
 ## flack 1.2.2  released 2021-04-08
 
 - let #rel fall back on PATH_INFO if no REQUEST_PATH
