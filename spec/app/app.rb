@@ -32,5 +32,19 @@ describe Flack::App do
       expect(Flack::App.unit.object_id).to eq(u1.object_id)
     end
   end
+
+  describe '.on_unit_created' do
+
+    it 'is called when the flor unit is created' do
+
+      def Flack.on_unit_created(unit)
+        $RS = [ unit.class, unit.object_id ]
+      end
+
+      app = Flack::App.new('envs/test/etc/conf.json', start: false)
+
+      expect($RS).to eq([ Flor::Scheduler, Flack::App.unit.object_id ])
+    end
+  end
 end
 

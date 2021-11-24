@@ -23,6 +23,17 @@ Warning: this serves an API, not some fancy web interface.
 Based on HAL ([spec](http://stateless.co/hal_specification.html) and [draft](https://tools.ietf.org/html/draft-kelly-json-hal-08)), [URI Template](https://tools.ietf.org/html/rfc6570), and [CURIE](https://www.w3.org/TR/curie/).
 
 
+## in a rack app
+
+```ruby
+map '/flack' do
+
+  run Flack::App.new('flor/')
+    # starts a flack app whose flor unit uses the tree at flor/
+end
+```
+
+
 ## license
 
 MIT, see [LICENSE.txt](LICENSE.txt)

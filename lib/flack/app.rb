@@ -29,6 +29,8 @@ class Flack::App
 
     self.class.unit = @unit
 
+    Flack.on_unit_created(@unit) if Flack.respond_to?(:on_unit_created)
+
     @unit
   end
 
