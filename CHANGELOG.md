@@ -4,6 +4,7 @@
 
 ## flack 1.3.0  not yet released
 
+- GET /executions?exid=20230310
 - Add Flack.on_unit_created(unit) callback
 
 
