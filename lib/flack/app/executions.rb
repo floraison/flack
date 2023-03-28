@@ -16,10 +16,12 @@ class Flack::App
     statuses = nil if statuses == []
 
     exid = qs['exid'].first
+    dexid = qs['dexid'].first
 
     q = @unit.executions
     q = q.where(status: statuses) if statuses
     q = q.where(Sequel.like(:exid, "#{exid}%")) if exid
+    q = q.where(Sequel.like(:exid, "%-#{dexid}%")) if dexid
 
     respond(env, q.all)
   end

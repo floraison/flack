@@ -200,26 +200,40 @@ describe '/executions' do
       end
     end
 
-    describe 'GET /executions?status=active&exid=20230328.10' do
+    describe 'GET /executions?status=active&exid=net.ntt-u-20230328.10' do
 
       it 'lists the matching executions' do
-
-        pexid = @exids.first[0..-5]
 
         r = @app.call(
           make_env(
             path: '/executions',
-            qs: 'status=active&exid=' + pexid))
+            qs: 'status=active&exid=net.ntt.finance-'))
 
         j = JSON.parse(r[2].first)
 
         exids = j['_embedded']['flack:executions'].collect { |e| e['exid'] }
 
-        expect(
-          exids.collect { |i| i[0..pexid.length-1] }.uniq
-        ).to eq([
-          pexid
-        ])
+        expect(exids
+          ).to eq(@exids.select { |e| e.match?(/finance/) })
+      end
+    end
+
+    describe 'GET /executions?status=active&dexid=20230328.10' do
+
+      it 'lists the matching executions' do
+
+        dexid = @exids.first.split('-').last[0, 18]
+
+        r = @app.call(
+          make_env(
+            path: '/executions',
+            qs: 'status=active&dexid=' + dexid))
+
+        j = JSON.parse(r[2].first)
+
+        exids = j['_embedded']['flack:executions'].collect { |e| e['exid'] }
+
+        expect(exids).to eq(@exids.select { |e| e.index(dexid) })
       end
     end
 
