@@ -4,6 +4,8 @@
 
 ## flack 1.3.0  not yet released
 
+- Add Flack.on_unit_created(unit) callback
+
 
 ## flack 1.2.2  released 2021-04-08
 
