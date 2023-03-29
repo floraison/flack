@@ -169,29 +169,25 @@ describe '/executions' do
 
       it 'lists the executions' do
 
-        r = @app.call(make_env(path: '/executions', qs: 'status=active'))
+        r =
+          parse_response(
+            @app.call(make_env(path: '/executions', qs: 'status=active')))
 
-        expect(r[0]).to eq(200)
-        expect(r[1]['Content-Type']).to eq('application/json')
+        expect(r.status).to eq(200)
+        expect(r.headers['Content-Type']).to eq('application/json')
 
-        j = JSON.parse(r[2].first)
-
-        expect(
-          j['_embedded'].keys
-        ).to eq(%w[
-          flack:executions
-        ])
+        expect(r.embedded.keys).to eq(%w[ flack:executions ])
 
         expect(
-          j['_embedded'].values.first
+          r.executions
             .collect { |e| e['exid'] }
             .sort
         ).to eq(
           @exids
-            .reject { |i| i.match(/\A(net\.ntt\.hr|net.nttc)-/) }
+            .reject { |i| i.match(/^(net.ntt.hr|net.nttc)-/) }
         )
         expect(
-          j['_embedded'].values.first
+          r.executions
             .collect { |e| e['domain'] }
             .sort
         ).to eq(%w[
