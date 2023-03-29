@@ -39,46 +39,42 @@ describe '/' do
 
       expect(
         j['_links']
-      ).to eqj({
-        "self"=>{"href"=>"/"},
-        "curies"=>
-         [{"name"=>"flack",
-           "href"=>
-            "https://github.com/floraison/flack/blob/master/doc/rels.md\#{rel}",
-           "templated"=>true}],
-        "flack:executions"=>
-         {"href"=>"/executions{?status}", "templated"=>true},
-        "flack:executions/domain"=>
-         {"href"=>"/executions/{domain}{?status}", "templated"=>true},
-        "flack:executions/domain-star"=>
-         {"href"=>"/executions/{domain}*{?status}", "templated"=>true},
-        "flack:executions/domain-dot-star"=>
-         {"href"=>"/executions/{domain}.*{?status}", "templated"=>true},
-        "flack:executions/exid"=>
-         {"href"=>"/executions/{exid}", "templated"=>true},
-        "flack:executions/id"=>
-         {"href"=>"/executions/{id}", "templated"=>true},
-        "flack:messages"=>
-         {"href"=>"/messages"},
-        "flack:messages/point"=>
-         {"href"=>"/messages/{point}", "templated"=>true},
-        "flack:messages/exid/point"=>
-         {"href"=>"/messages/{exid}/{point}", "templated"=>true},
-        "flack:messages/exid"=>
-         {"href"=>"/messages/{exid}", "templated"=>true},
-        "flack:messages/id"=>
-         {"href"=>"/messages/{id}", "templated"=>true},
-        "flack:pointers"=>
-         {"href"=>"/pointers{?type}", "templated"=>true},
-        "flack:pointers/exid"=>
-         {"href"=>"/pointers/{exid}{?type}", "templated"=>true},
-        "flack:pointers/domain"=>
-         {"href"=>"/pointers/{domain}{?type}", "templated"=>true},
-        "flack:pointers/domain-star"=>
-         {"href"=>"/pointers/{domain}*{?type}", "templated"=>true},
-        "flack:pointers/domain-dot-star"=>
-         {"href"=>"/pointers/{domain}.*{?type}", "templated"=>true}
-      })
+      ).to eqj(
+        {"self"=>{"href"=>"/"},
+         "curies"=>
+          [{"name"=>"flack",
+            "href"=>
+             "https://github.com/floraison/flack/blob/master/doc/rels.md\#{rel}",
+            "templated"=>true}],
+         "flack:executions"=>
+          {"href"=>"/executions{?status,exid,dexid}", "templated"=>true},
+         "flack:executions/domain"=>
+          {"href"=>"/executions/{domain}{?status}", "templated"=>true},
+         "flack:executions/domain-star"=>
+          {"href"=>"/executions/{domain}*{?status}", "templated"=>true},
+         "flack:executions/domain-dot-star"=>
+          {"href"=>"/executions/{domain}.*{?status}", "templated"=>true},
+         "flack:executions/exid"=>
+          {"href"=>"/executions/{exid}", "templated"=>true},
+         "flack:executions/id"=>{"href"=>"/executions/{id}", "templated"=>true},
+         "flack:messages"=>{"href"=>"/messages"},
+         "flack:messages/point"=>
+          {"href"=>"/messages/{point}", "templated"=>true},
+         "flack:messages/exid/point"=>
+          {"href"=>"/messages/{exid}/{point}", "templated"=>true},
+         "flack:messages/exid"=>{"href"=>"/messages/{exid}", "templated"=>true},
+         "flack:messages/id"=>{"href"=>"/messages/{id}", "templated"=>true},
+         "flack:pointers"=>
+          {"href"=>"/pointers{?types,exid,dexid}", "templated"=>true},
+         "flack:pointers/exid"=>
+          {"href"=>"/pointers/{exid}{?types}", "templated"=>true},
+         "flack:pointers/domain"=>
+          {"href"=>"/pointers/{domain}{?types}", "templated"=>true},
+         "flack:pointers/domain-star"=>
+          {"href"=>"/pointers/{domain}*{?types}", "templated"=>true},
+         "flack:pointers/domain-dot-star"=>
+          {"href"=>"/pointers/{domain}.*{?types}", "templated"=>true}}
+      )
 
       expect(
         j['_links'].select { |k, v| k == 'curies' }
@@ -117,46 +113,45 @@ describe '/' do
 
         expect(
           j['_links']
-        ).to eqj({
-          "self"=>{"href"=>"/flack/"},
-          "curies"=>
-           [{"name"=>"flack",
-             "href"=>
-             'https://github.com/floraison/flack/blob/master/doc/rels.md#{rel}',
-             "templated"=>true}],
-          "flack:executions"=>
-           {"href"=>"/flack/executions{?status}", "templated"=>true},
-          "flack:executions/domain"=>
-           {"href"=>"/flack/executions/{domain}{?status}", "templated"=>true},
-          "flack:executions/domain-star"=>
-           {"href"=>"/flack/executions/{domain}*{?status}", "templated"=>true},
-          "flack:executions/domain-dot-star"=>
-           {"href"=>"/flack/executions/{domain}.*{?status}", "templated"=>true},
-          "flack:executions/exid"=>
-           {"href"=>"/flack/executions/{exid}", "templated"=>true},
-          "flack:executions/id"=>
-           {"href"=>"/flack/executions/{id}", "templated"=>true},
-          "flack:messages"=>
-           {"href"=>"/flack/messages"},
-          "flack:messages/point"=>
-           {"href"=>"/flack/messages/{point}", "templated"=>true},
-          "flack:messages/exid/point"=>
-           {"href"=>"/flack/messages/{exid}/{point}", "templated"=>true},
-          "flack:messages/exid"=>
-           {"href"=>"/flack/messages/{exid}", "templated"=>true},
-          "flack:messages/id"=>
-           {"href"=>"/flack/messages/{id}", "templated"=>true},
-          "flack:pointers"=>
-           {"href"=>"/flack/pointers{?type}", "templated"=>true},
-          "flack:pointers/exid"=>
-           {"href"=>"/flack/pointers/{exid}{?type}", "templated"=>true},
-          "flack:pointers/domain"=>
-           {"href"=>"/flack/pointers/{domain}{?type}", "templated"=>true},
-          "flack:pointers/domain-star"=>
-           {"href"=>"/flack/pointers/{domain}*{?type}", "templated"=>true},
-          "flack:pointers/domain-dot-star"=>
-           {"href"=>"/flack/pointers/{domain}.*{?type}", "templated"=>true}
-        })
+        ).to eqj(
+          {"self"=>{"href"=>"/flack/"},
+           "curies"=>
+            [{"name"=>"flack",
+              "href"=>
+               "https://github.com/floraison/flack/blob/master/doc/rels.md\#{rel}",
+              "templated"=>true}],
+           "flack:executions"=>
+            {"href"=>"/flack/executions{?status,exid,dexid}", "templated"=>true},
+           "flack:executions/domain"=>
+            {"href"=>"/flack/executions/{domain}{?status}", "templated"=>true},
+           "flack:executions/domain-star"=>
+            {"href"=>"/flack/executions/{domain}*{?status}", "templated"=>true},
+           "flack:executions/domain-dot-star"=>
+            {"href"=>"/flack/executions/{domain}.*{?status}", "templated"=>true},
+           "flack:executions/exid"=>
+            {"href"=>"/flack/executions/{exid}", "templated"=>true},
+           "flack:executions/id"=>
+            {"href"=>"/flack/executions/{id}", "templated"=>true},
+           "flack:messages"=>{"href"=>"/flack/messages"},
+           "flack:messages/point"=>
+            {"href"=>"/flack/messages/{point}", "templated"=>true},
+           "flack:messages/exid/point"=>
+            {"href"=>"/flack/messages/{exid}/{point}", "templated"=>true},
+           "flack:messages/exid"=>
+            {"href"=>"/flack/messages/{exid}", "templated"=>true},
+           "flack:messages/id"=>
+            {"href"=>"/flack/messages/{id}", "templated"=>true},
+           "flack:pointers"=>
+            {"href"=>"/flack/pointers{?types,exid,dexid}", "templated"=>true},
+           "flack:pointers/exid"=>
+            {"href"=>"/flack/pointers/{exid}{?types}", "templated"=>true},
+           "flack:pointers/domain"=>
+            {"href"=>"/flack/pointers/{domain}{?types}", "templated"=>true},
+           "flack:pointers/domain-star"=>
+            {"href"=>"/flack/pointers/{domain}*{?types}", "templated"=>true},
+           "flack:pointers/domain-dot-star"=>
+            {"href"=>"/flack/pointers/{domain}.*{?types}", "templated"=>true}}
+        )
         expect(
           j['_forms']
         ).to eqj({
