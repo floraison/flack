@@ -233,7 +233,8 @@ describe '/executions' do
 
         exids = j['_embedded']['flack:executions'].collect { |e| e['exid'] }
 
-        expect(exids).to eq(@exids.select { |e| e.index(dexid) })
+        expect(exids
+          ).to eq(@exids.select { |e| e.split('-').last.start_with?(dexid) })
       end
     end
 
