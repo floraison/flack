@@ -26,7 +26,11 @@ class Flack::App
       #
     q = q.order(:exid)
 
-    respond(env, q.all)
+    if query_value(env, 'count')
+      respond(env, { count: q.count })
+    else
+      respond(env, q.all)
+    end
   end
 
   # GET /pointers/<exid>

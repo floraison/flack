@@ -4,6 +4,8 @@
 
 ## flack 1.3.0  not yet released
 
+- GET /pointers?count=true
+- GET /executions?count=true
 - GET /pointers?exid=net.ntt.finance-
 - GET /pointers?dexid=20230310
 - GET /executions?exid=net.ntt.finance-

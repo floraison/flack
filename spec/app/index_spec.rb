@@ -47,7 +47,7 @@ describe '/' do
              "https://github.com/floraison/flack/blob/master/doc/rels.md\#{rel}",
             "templated"=>true}],
          "flack:executions"=>
-          {"href"=>"/executions{?status,exid,dexid}", "templated"=>true},
+          {"href"=>"/executions{?status,exid,dexid,count}", "templated"=>true},
          "flack:executions/domain"=>
           {"href"=>"/executions/{domain}{?status}", "templated"=>true},
          "flack:executions/domain-star"=>
@@ -65,7 +65,7 @@ describe '/' do
          "flack:messages/exid"=>{"href"=>"/messages/{exid}", "templated"=>true},
          "flack:messages/id"=>{"href"=>"/messages/{id}", "templated"=>true},
          "flack:pointers"=>
-          {"href"=>"/pointers{?types,exid,dexid}", "templated"=>true},
+          {"href"=>"/pointers{?types,exid,dexid,count}", "templated"=>true},
          "flack:pointers/exid"=>
           {"href"=>"/pointers/{exid}{?types}", "templated"=>true},
          "flack:pointers/domain"=>
@@ -121,7 +121,7 @@ describe '/' do
                "https://github.com/floraison/flack/blob/master/doc/rels.md\#{rel}",
               "templated"=>true}],
            "flack:executions"=>
-            {"href"=>"/flack/executions{?status,exid,dexid}", "templated"=>true},
+            {"href"=>"/flack/executions{?status,exid,dexid,count}", "templated"=>true},
            "flack:executions/domain"=>
             {"href"=>"/flack/executions/{domain}{?status}", "templated"=>true},
            "flack:executions/domain-star"=>
@@ -142,7 +142,7 @@ describe '/' do
            "flack:messages/id"=>
             {"href"=>"/flack/messages/{id}", "templated"=>true},
            "flack:pointers"=>
-            {"href"=>"/flack/pointers{?types,exid,dexid}", "templated"=>true},
+            {"href"=>"/flack/pointers{?types,exid,dexid,count}", "templated"=>true},
            "flack:pointers/exid"=>
             {"href"=>"/flack/pointers/{exid}{?types}", "templated"=>true},
            "flack:pointers/domain"=>

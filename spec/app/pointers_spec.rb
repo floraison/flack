@@ -154,6 +154,18 @@ describe '/pointers' do
       end
     end
 
+    describe 'GET /pointers?count=true' do
+
+      it 'returns { count: 5 }' do
+
+        r =
+          parse_response(
+            @app.call(make_env(path: '/pointers', qs: 'count=true')))
+
+        expect(r.json['count']).to eq(5)
+      end
+    end
+
     describe 'GET /pointers&types=var' do
 
       it 'lists nothing if there is no match' do

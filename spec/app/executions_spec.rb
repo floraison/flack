@@ -165,6 +165,18 @@ describe '/executions' do
       end
     end
 
+    describe 'GET /executions?count=true' do
+
+      it 'returns { count: 5 }' do
+
+        r =
+          parse_response(
+            @app.call(make_env(path: '/executions', qs: 'count=true')))
+
+        expect(r.json['count']).to eq(5)
+      end
+    end
+
     describe 'GET /executions?status=active' do
 
       it 'lists the executions' do

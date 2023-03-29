@@ -10,6 +10,8 @@ class Flack::App
 # TODO implement paging
     env['flack.rel'] = 'flack:messages'
 
+# TODO {?exid,dexid,count} like for /executions and /pointers
+
     respond(env, @unit.messages.all)
   end
 
