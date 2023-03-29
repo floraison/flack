@@ -2,7 +2,7 @@
 # CHANGELOG.md
 
 
-## flack 1.3.0  not yet released
+## flack 1.3.0  released 2023-03-29
 
 - GET /pointers?count=true
 - GET /executions?count=true
