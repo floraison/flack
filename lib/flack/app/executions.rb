@@ -13,12 +13,9 @@ class Flack::App
 # TODO implement paging
     env['flack.rel'] = 'flack:executions'
 
-    qs = CGI.parse(env['QUERY_STRING'] || '')
-    statuses = qs['status']
-    statuses = nil if statuses == []
-
-    exid = qs['exid'].first
-    dexid = qs['dexid'].first
+    statuses = query_values(env, 'statuses', 'status')
+    exid = query_value(env, 'exid')
+    dexid = query_value(env, 'dexid')
 
     q = @unit.executions
       #
@@ -108,9 +105,7 @@ class Flack::App
 
   def get_executions_by_domain(env, dom)
 
-    qs = CGI.parse(env['QUERY_STRING'] || '')
-    statuses = qs['status']
-    statuses = nil if statuses == []
+    statuses = query_values(env, 'statuses', 'status')
 
     q = @unit.executions
 

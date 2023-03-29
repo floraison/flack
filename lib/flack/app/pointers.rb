@@ -13,12 +13,10 @@ class Flack::App
 # TODO implement paging
     env['flack.rel'] = 'flack:pointers'
 
-    qs = CGI.parse(env['QUERY_STRING'] || '')
-    types = qs['types'].collect { |e| e.split(',') }.flatten
-    types = nil if types == []
+    types = query_values(env, 'types', 'type')
 
-    exid = qs['exid'].first
-    dexid = qs['dexid'].first
+    exid = query_value(env, 'exid')
+    dexid = query_value(env, 'dexid')
 
     q = @unit.pointers
       #
@@ -40,10 +38,7 @@ class Flack::App
 
     arg = env['flack.args'][0]
 
-    qs = CGI.parse(env['QUERY_STRING'] || '')
-
-    types = qs['types'].collect { |e| e.split(',') }.flatten
-    types = nil if types == []
+    types = query_values(env, 'types', 'type')
 
     if arg.count('-') == 0
       get_pointers_by_domain(env, arg, types)

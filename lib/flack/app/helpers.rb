@@ -133,7 +133,7 @@ class Flack::App
 
     h['curies'] = CURIES
 
-    link(env, h, 'executions{?status}')
+    link(env, h, 'executions{?status,exid,dexid}')
     link(env, h, 'executions/{domain}{?status}')
     link(env, h, 'executions/{domain}*{?status}')
     link(env, h, 'executions/{domain}.*{?status}')
@@ -146,11 +146,11 @@ class Flack::App
     link(env, h, 'messages/{exid}')
     link(env, h, 'messages/{id}')
 
-    link(env, h, 'pointers{?type}')
-    link(env, h, 'pointers/{exid}{?type}')
-    link(env, h, 'pointers/{domain}{?type}')
-    link(env, h, 'pointers/{domain}*{?type}')
-    link(env, h, 'pointers/{domain}.*{?type}')
+    link(env, h, 'pointers{?types}')
+    link(env, h, 'pointers/{exid}{?types}')
+    link(env, h, 'pointers/{domain}{?types}')
+    link(env, h, 'pointers/{domain}*{?types}')
+    link(env, h, 'pointers/{domain}.*{?types}')
 
     h
   end
@@ -188,6 +188,30 @@ class Flack::App
   def respond_internal_server_error(env, error=nil)
 
     respond(env, {}, code: 500, error: error)
+  end
+
+  def query_value(env, *keys)
+
+    query = (env['__query'] ||= CGI.parse(env['QUERY_STRING'] || ''))
+
+    r = keys.collect { |k| query[k] }.compact.first
+    r ? r.first : r
+  end
+
+  def query_values(env, *keys)
+
+    query = (env['__query'] ||= CGI.parse(env['QUERY_STRING'] || ''))
+
+    r = keys
+      .collect { |k| query[k] }
+      .select { |v| v != [] }
+      .first
+    return nil unless r
+
+    r = r.first.split(',').select { |e| e.length > 0 }
+    return nil if r == []
+
+    r
   end
 end
 
