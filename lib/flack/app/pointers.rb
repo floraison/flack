@@ -5,6 +5,8 @@
 class Flack::App
 
   # GET /pointers
+  # GET /pointers?exid=<exid_prefix>
+  # GET /pointers?dexid=<date_exid_prefix>
   #
   def get_pointers(env)
 
@@ -15,8 +17,16 @@ class Flack::App
     types = qs['types'].collect { |e| e.split(',') }.flatten
     types = nil if types == []
 
+    exid = qs['exid'].first
+    dexid = qs['dexid'].first
+
     q = @unit.pointers
+      #
     q = q.where(type: types) if types
+    q = q.where(Sequel.like(:exid, "#{exid}%")) if exid
+    q = q.where(Sequel.like(:exid, "%-#{dexid}%")) if dexid
+      #
+    q = q.order(:exid)
 
     respond(env, q.all)
   end

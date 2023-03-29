@@ -5,6 +5,8 @@
 class Flack::App
 
   # GET /executions
+  # GET /executions?exid=<exid_prefix>
+  # GET /executions?dexid=<date_exid_prefix>
   #
   def get_executions(env)
 
@@ -19,11 +21,11 @@ class Flack::App
     dexid = qs['dexid'].first
 
     q = @unit.executions
-
+      #
     q = q.where(status: statuses) if statuses
     q = q.where(Sequel.like(:exid, "#{exid}%")) if exid
     q = q.where(Sequel.like(:exid, "%-#{dexid}%")) if dexid
-
+      #
     q = q.order(:exid)
 
     respond(env, q.all)

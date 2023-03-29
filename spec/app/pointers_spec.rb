@@ -115,11 +115,8 @@ describe '/pointers' do
             n: "talbot", ni: "0", t: "tag", v: nil }
         ])
       end
-    end
 
-    describe 'GET /pointers' do
-
-      it 'lists the pointers' do
+      it 'lists the pointers (2)' do
 
         r = @app.call(make_env(path: '/pointers'))
 
@@ -154,6 +151,114 @@ describe '/pointers' do
           { d: "net.ntt",
             n: "talbot", ni: "0", t: "tag", v: nil }
         ])
+      end
+    end
+
+    describe 'GET /pointers&types=var' do
+
+      it 'lists nothing if there is no match' do
+
+        r = @app.call(make_env(path: '/pointers', qs: 'types=nada'))
+        j = JSON.parse(r[2].first)
+
+        expect(j['_embedded']['flack:pointers']).to eq([])
+      end
+
+      it 'lists matching pointers' do
+
+        r =
+          parse_response(
+            @app.call(make_env(path: '/pointers', qs: 'types=var')))
+
+        expect(r.status).to eq(200)
+        expect(r.pointers.collect { |ptr| ptr['type'] }.uniq).to eq([ 'var' ])
+      end
+    end
+
+    describe 'GET /pointers&exid=net.ntt' do
+
+      it 'lists nothing if there is no match' do
+
+        r = @app.call(make_env(path: '/pointers', qs: 'exid=nada'))
+        j = JSON.parse(r[2].first)
+
+        expect(j['_embedded']['flack:pointers']).to eq([])
+      end
+
+      it 'lists matching pointers' do
+
+        r =
+          parse_response(
+            @app.call(
+              make_env(path: '/pointers', qs: 'exid=net.ntt.hr')))
+
+        expect(r.status
+          ).to eq(200)
+        expect(r.pointers.collect { |ptr| ptr['type'] }.uniq.sort
+          ).to eq(%w[ tag tasker ])
+        expect(r.pointers.all? { |ptr| ptr['exid'].start_with?('net.ntt.hr') }
+          ).to eq(true)
+      end
+    end
+
+    describe 'GET /pointers&dexid=20230329' do
+
+      it 'lists nothing if there is no match' do
+
+        r = @app.call(make_env(path: '/pointers', qs: 'dexid=nada'))
+        j = JSON.parse(r[2].first)
+
+        expect(j['_embedded']['flack:pointers']).to eq([])
+      end
+
+      it 'lists matching pointers' do
+
+        dexid = @exids.first.split('-').last[0, 19]
+
+        r =
+          parse_response(
+            @app.call(
+              make_env(path: '/pointers', qs: 'dexid=' + dexid)))
+
+        expect(
+          r.status
+        ).to eq(200)
+        expect(
+          r.pointers.all? { |ptr|
+            ptr['exid'].split('-').last.start_with?(dexid) }
+        ).to eq(true)
+      end
+    end
+
+    describe 'GET /pointers&types=var&dexid=20230329' do
+
+      it 'lists nothing if there is no match' do
+
+        r = @app.call(make_env(path: '/pointers', qs: 'types=nada&dexid=nada'))
+        j = JSON.parse(r[2].first)
+
+        expect(j['_embedded']['flack:pointers']).to eq([])
+      end
+
+      it 'lists matching pointers' do
+
+        dexid = @exids.first.split('-').last[0, 16]
+
+        r =
+          parse_response(
+            @app.call(
+              make_env(path: '/pointers', qs: 'types=var&dexid=' + dexid)))
+
+        expect(
+          r.status
+        ).to eq(200)
+        expect(
+          r.pointers.collect { |ptr| ptr['type'] }.uniq
+        ).to eq([ 'var' ])
+        expect(
+          r.pointers.all? { |ptr|
+            ptr['exid'].split('-').last.start_with?(dexid) }
+        ).to eq(true)
       end
     end
 

@@ -202,6 +202,17 @@ describe '/executions' do
 
     describe 'GET /executions?status=active&exid=net.ntt-u-20230328.10' do
 
+      it 'lists nothing if there is no match' do
+
+        r =
+          parse_response(
+            @app.call(
+              make_env(path: '/executions', qs: 'status=active&exid=nada')))
+
+        expect(r.status).to eq(200)
+        expect(r.executions).to eq([])
+      end
+
       it 'lists the matching executions' do
 
         r = @app.call(
@@ -219,6 +230,17 @@ describe '/executions' do
     end
 
     describe 'GET /executions?status=active&dexid=20230328.10' do
+
+      it 'lists nothing if there is no match' do
+
+        r =
+          parse_response(
+            @app.call(
+              make_env(path: '/executions', qs: 'status=active&dexid=nada')))
+
+        expect(r.status).to eq(200)
+        expect(r.executions).to eq([])
+      end
 
       it 'lists the matching executions' do
 
@@ -239,6 +261,17 @@ describe '/executions' do
     end
 
     describe 'GET /executions/:exid' do
+
+      it 'goes 404 when the execution does not exist' do
+
+        exid = @exids.first.gsub(/-20/, '-19')
+
+        r =
+          parse_response(
+            @app.call(make_env(path: "/executions/#{exid}")))
+
+        expect(r.status).to eq(404)
+      end
 
       it 'returns the execution' do
 

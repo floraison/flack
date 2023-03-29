@@ -60,6 +60,22 @@ module Helpers
     fail "timeout after #{timeout}s"
   end
   alias :wait_for :wait_until
+
+  def parse_response(res)
+
+    o = OpenStruct.new
+    o.status = res[0]
+    o.headers = res[1]
+    o.json = JSON.parse(res[2].first)
+    o.embedded = o.json['_embedded']
+
+    %w[ flack:executions flack:pointers ].each do |key|
+      k = key.split(':').last
+      o[k] = o.embedded[key]
+    end if o.embedded
+
+    o
+  end
 end
 
 RSpec.configure { |c| c.include(Helpers) }

@@ -4,6 +4,8 @@
 
 ## flack 1.3.0  not yet released
 
+- GET /pointers?exid=net.ntt.finance-
+- GET /pointers?dexid=20230310
 - GET /executions?exid=net.ntt.finance-
 - GET /executions?dexid=20230310
 - Add Flack.on_unit_created(unit) callback
