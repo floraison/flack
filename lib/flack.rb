@@ -2,6 +2,8 @@
 
 require 'pp'
 require 'cgi'
+require 'ostruct'
+
 require 'rack'
 
 require 'flor/unit'

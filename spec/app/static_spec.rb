@@ -22,9 +22,10 @@ describe '/*.{html|css|js}' do
       r = @app.call(make_env(path: '/flack.css'))
 
       expect(r[0]).to eq(200)
-      expect(r[1]['Content-Type']).to eq('text/css')
-      expect(r[1]['Last-Modified']).not_to eq(nil)
-      expect(r[2].class).to eq(Rack::File::Iterator)
+      expect(r[1]['content-type']).to eq('text/css')
+      expect(r[1]['content-length']).not_to eq(nil)
+      expect(r[1]['last-modified']).not_to eq(nil)
+      expect(r[2].class).to eq(Rack::Files::Iterator)
     end
 
     it 'stays in static/' do

@@ -27,11 +27,14 @@ A web front-end to the flor workflow engine
     "#{s.name}.gemspec",
   ]
 
+  s.add_development_dependency 'ostruct'
+
   #flor_version = s.version.to_s.split('.').take(2).join('.')
   #s.add_runtime_dependency 'flor', "~> #{flor_version}"
   s.add_runtime_dependency 'flor'
 
-  s.add_runtime_dependency 'rack', '>= 1.6', '< 3.0'
+  #s.add_runtime_dependency 'rack', '>= 1.6', '< 3.0'
+  s.add_runtime_dependency 'rack', '~> 3.0'
   #s.add_runtime_dependency 'httpclient', '~> 2.8'
 
   s.add_development_dependency 'rspec', '~> 3'
