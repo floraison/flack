@@ -6,7 +6,7 @@
 #
 class Flack::App
 
-  STATIC_FILE = Rack::File.new(
+  STATIC_FILE = Rack::Files.new(
     File.absolute_path(
       File.join(
         File.dirname(__FILE__), '..', 'static')))
