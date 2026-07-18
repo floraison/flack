@@ -17,6 +17,13 @@ Gemfile.lock
 
 .todo.md
 
+.chat.md*
+.deep.md*
+.claude.md*
+.openai.*
+.deepseek.*
+.klaude.*
+
 #tmp/*.db
 
 envs/**/var/data.db
